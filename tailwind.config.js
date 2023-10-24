@@ -11,7 +11,10 @@ module.exports = {
         'dark-1': '#586F7C',
         'dark-2': '#353535 ',
         'black': '#252422',
-        //2F4550 161a1d
+        //2F4550 161a1d 
+        'gray-1' : '#333533',
+        'gray-2' : '#343a40',
+        'gray-4' : '#6c757d',
       },
       boxShadow:{
         'shadow-1' : 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px',
@@ -19,6 +22,9 @@ module.exports = {
       width: {
         '98': '25rem',
         '100': '26rem',
+      },
+      height: {
+        '90/100': '90%',
       }
     },
   },

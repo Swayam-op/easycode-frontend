@@ -3,6 +3,7 @@ import { problemsApi } from '../Api/ProblemsApi';
 import {BsCheck2Circle} from 'react-icons/bs';
 import {FaRegCircleXmark} from 'react-icons/fa6';
 import {FiEdit} from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 const Problems = () => {
   return (
     <div className='w-full lg:px-48 py-10'>
@@ -31,15 +32,15 @@ const Problems = () => {
                 return (
                     <tr className={`${key%2 === 0?"bg-black":"bg-dark-2"}`}>
                 <td colSpan={1} class="px-6 py-4  font-medium text-gray-900 ">
-                {item.status === "solved"?<BsCheck2Circle className='text-green-600 text-xl'/>:item.status === "attempted"? <FaRegCircleXmark className="text-lg text-red-600"/>:<FiEdit className='text-lg text-yellow-600'/>}
+                {item.status === "solved"?<BsCheck2Circle className='text-green-500 text-xl'/>:item.status === "attempted"? <FaRegCircleXmark className="text-lg text-red-600"/>:<FiEdit className='text-lg text-yellow-500'/>}
                 </td>
                 <td colSpan={5} class="px-6 py-4 cursor-pointer  truncate ">
-                {item.title}
+                <Link to={`/editor/${key}`} className='hover:text-dark-1'>{item.title}</Link>
                 </td>
                 <td colSpan={3} class="px-6 py-4">
                 {item.acceptance}
                 </td>
-                <td colSpan={3} class={`capitalize font-medium px-6 py-4 ${item.difficulty === "easy"?"text-green-600":item.difficulty === "medium"?"text-yellow-600":"text-red-600"}`}>
+                <td colSpan={3} class={`capitalize font-medium px-6 py-4 ${item.difficulty === "easy"?"text-green-500":item.difficulty === "medium"?"text-yellow-500":"text-red-600"}`}>
                 {item.difficulty}
                 </td>
             </tr>

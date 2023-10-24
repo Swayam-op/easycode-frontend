@@ -1,6 +1,6 @@
 .scrollbar {
     scrollbar-width: thin;
-    scrollbar-color: #000 #fff;
+    scrollbar-color: #000 #343a40;
   }
   
   
@@ -10,12 +10,12 @@
   }
   
   .scrollbar::-webkit-scrollbar-track { 
-    background: #CED0CE;
+    background: #252422;
     border-radius: 5px;
   }
   
   .scrollbar::-webkit-scrollbar-thumb { 
-    background:#E6E8E6;
+    background:#343a40;
     border-radius: 5px;
   }
  
