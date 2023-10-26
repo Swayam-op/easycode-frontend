@@ -7,10 +7,10 @@ import {BsFillMoonStarsFill} from 'react-icons/bs'
 import { defineTheme, monacoThemes } from "../Api/CodeEditorTheme";
 import { LanguageAPI } from "../Api/LanguagesAPI";
 import axios from "axios";
-const CodeSpace = ({ onChange, language, code}) => {
-  const [value, setValue] = useState(code || "");
+const CodeSpace = () => {
+  const [value, setValue] = useState("");
   const [programmingLanguage, setProgrammingLanguage] = useState(LanguageAPI[0]);
-  const [theme, setTheme] = useState({ value: "oceanic-next", label: "Oceanic Next" });
+  const [theme, setTheme] = useState({ value: "night-owl", label: "Night Owl" });
   const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
   const [processing, setProcessing] = useState(null);
@@ -110,7 +110,7 @@ const CodeSpace = ({ onChange, language, code}) => {
 
   return (
     <div className="w-full md:h-full h-screen">
-        <div className='bg-dark-2 text-sm w-full px-3 py-2 flex md:justify-start justify-between items-center'>
+        <div className='bg-dark-2 text-sm w-full px-3 py-1 flex md:justify-start justify-between items-center'>
                         <div className={`text-gray-400 md:pr-4 pr-2 border border-transparent border-r-gray-600 font-medium text-sm md:text-md`}><HiOutlineCodeBracket className='inline text-lg text-green-600 mx-1' /> Code</div>
                         <div className={`text-gray-400' md:px-4 px-2  border border-transparent border-r-gray-600`}><MdOutlineScience className='inline text-blue-800 mx-1 text-lg' />
                             <Dropdown label="Dropdown button" className='bg-dark-2 border-none ' dismissOnClick={true} renderTrigger={() => <button className='md:px-2 px-1 py-1 text-xs bg-black shadow-lg rounded-md text-light-1 font-medium'>{programmingLanguage.name}</button>}>

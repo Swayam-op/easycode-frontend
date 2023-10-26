@@ -22,7 +22,10 @@ const Editor = () => {
                         <div className={`flex items-center ${leftContainer === "solutions" ? '' : 'text-gray-400'} px-3 border border-transparent border-r-gray-600`}><MdOutlineScience className='text-blue-800 mx-1' /> Solutions</div>
                         <div className={`flex items-center ${leftContainer === "submissions" ? '' : 'text-gray-400'} px-3 `}><PiClockClockwiseBold className='text-orange-600 mx-1' /> Submission</div>
                     </div>
+                    <div className='w-full md:h-90/100 scrollbar  overflow-y-scroll text-light-1 py-8 px-7'>
                     <DescriptionContainer />
+                    </div>
+                    
                 </div>
                 <div id='right_container' className=' w-full h-full  md:basis-1/2  '>
                     

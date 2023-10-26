@@ -2,7 +2,7 @@ import React from 'react'
 
 const DescriptionContainer = () => {
   return (
-    <div className='w-full scrollbar h-90/100  overflow-y-scroll text-light-1 py-8 px-7'>
+    <div className='w-full'>
       <h1 className='text-2xl mb-10'>138. Copy List with Random Pointer</h1>
       {/* question section --------------------------- */}
       <div className='qsn'>
