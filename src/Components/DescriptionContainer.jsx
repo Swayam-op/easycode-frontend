@@ -20,25 +20,25 @@ const DescriptionContainer = () => {
       <div className='examples mb-4'>
         <div className='py-2'>
           <h1 className='text-lg font-medium mb-2'>Example 1:</h1>
-          <p className='border border-transparent border-l-dark-1'>
+          <div className='border border-transparent border-l-dark-1'>
             <p className='px-4 font-medium'><h2 className=' inline'>Inputs: &nbsp; </h2> <span className='text-gray-4'>nums = [2,7,11,15], target = 9</span> </p>
             <p className='px-4 font-medium'><h2 className='font-medium inline'>Output : &nbsp; </h2> <span className='text-gray-4'> [0,1]</span></p>
             <p className='px-4 font-medium'><h2 className='font-medium inline'>Explanations :&nbsp; </h2> <span className='text-gray-4'>Because nums[0] + nums[1] == 9, we return [0, 1].</span></p>
-          </p>
+          </div>
         </div>
         <div className='py-2' >
           <h1 className='text-lg font-medium mb-2'>Example 2:</h1>
-          <p className='border border-transparent border-l-dark-1'>
+          <div className='border border-transparent border-l-dark-1'>
             <p className='px-4 font-medium'><h2 className='font-medium inline'>Inputs : &nbsp;</h2> <span className='text-gray-4'>nums = [3,2,4], target = 6</span></p>
             <p className='px-4 font-medium'><h2 className='font-medium inline'>Output :&nbsp; </h2> <span className='text-gray-4'>[1,2]</span></p>
-          </p>
+          </div>
         </div>
         <div className='py-2'>
           <h1 className='text-lg font-medium mb-2'>Example 3:</h1>
-          <p className='border border-transparent border-l-dark-1'>
+          <div className='border border-transparent border-l-dark-1'>
             <p className='px-4 font-medium'><h2 className='font-medium inline'>Inputs : &nbsp;</h2><span className='text-gray-4'> nums = [3,3], target = 6</span></p>
             <p className='px-4 font-medium'><h2 className='font-medium inline'>Output :&nbsp; </h2><span className='text-gray-4'> [0,1]</span></p>
-          </p>
+          </div>
         </div>
       </div>
       {/* Contraint sectionv---------------------------------- */}

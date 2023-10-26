@@ -10,11 +10,11 @@ import Editor from './Pages/Editor';
 function App() {
   return (
     <div className='bg-black relative min-h-screen'>
-      <Navbar/>
+      {/* <Navbar/> */}
       <Routes>
         <Route path='/' element={<>welcome</>}/>
         <Route path='/problems' element={<Problems/>}/>
-        <Route path='/explore' element={<>explore</>}/>
+        <Route path='/explore' element={<Navbar/>}/>
         <Route path='/interview' element={<>interview</>}/>
         <Route path='/discuss' element={<>discuss</>}/>
         <Route path='/signup' element={<SIgnup/>}/>
