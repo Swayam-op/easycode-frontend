@@ -10,14 +10,14 @@ publicApi.interceptors.request.use((config)=>{
         ...config.headers,
         "Content-Type" : "application/json",
     }
-    console.log("intereceptor activated", config);
+    console.log("public_api intereceptor request config", config);
     return config;
 },(error)=>{
     return Promise.reject("Error in axios");
 })
 
 publicApi.interceptors.response.use((response)=>{
-    console.log(response);
+    console.log("public_api Intercepto response : ",response);
     return response;
 },(error)=>{
     console.log("error in publicapi response interceptor", error);
