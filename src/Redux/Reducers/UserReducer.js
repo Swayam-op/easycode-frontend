@@ -114,7 +114,8 @@ export const loginThunk = createAsyncThunk('user/loginThunk', async(loginDetails
     }
 });
 
-export const logoutThunk = createAsyncThunk('user/login',({dispatch})=>{
+export const logoutThunk = createAsyncThunk('user/logoutThunk',async(data, {dispatch})=>{
+    console.log("logout");
     clearTokens();
-    dispatch(setLogout);
+    dispatch(setLogout());
 })
