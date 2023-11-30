@@ -11,6 +11,9 @@ import { useDispatch } from 'react-redux';
 import { setLogin, setLogout } from './Redux/Reducers/UserReducer';
 import { getAccessToken } from './Services/storage';
 import NotAuthenticated from './Hooks/NotAuthenticated';
+import Loading from './Pages/Loading';
+import { ToastContainer } from 'react-toastify';
+import ToastHandler from './Components/ToastHandler';
 
 function App() {
   const dispatch = useDispatch();
@@ -23,8 +26,12 @@ function App() {
     dispatch(setLogout());
   }
 
-  return (
-    <div className='bg-black relative min-h-screen'>
+  return (<>
+  <div className='absolute w-96'><ToastContainer/></div> 
+      <div className='bg-black relative min-h-screen'>
+      
+      <Loading/>
+      <ToastHandler/>
       <Navbar />
       <Routes>
         <Route exact path='/' element={<>welcome</>} />
@@ -41,6 +48,7 @@ function App() {
         </Route>
       </Routes>
     </div>
+    </>
   );
 }
 

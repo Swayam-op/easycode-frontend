@@ -22,7 +22,7 @@ const Signin = () => {
     }
     timer.current = setTimeout(()=>{
       dispatch(loginThunk(signinDetails));
-    },2000);
+    },500);
   },[dispatch, signinDetails])
 
   return (

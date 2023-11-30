@@ -1,6 +1,6 @@
 import axios from "axios";
-import { getAccessToken } from "./Services/storage";
-
+import { getAccessToken, getAccessTokenUsingRefreshToken } from "./Services/storage";
+import {STATUS} from './Services/StatusCode';
 
 const publicApi = axios.create({
     baseURL : 'http://localhost:5000/v1/public_api'
@@ -40,13 +40,33 @@ privateApi.interceptors.request.use((config)=>{
     return config;
 },
 (error)=>{
+    console.log(error);
     return Promise.reject("Error in axios");
 })
 
 privateApi.interceptors.response.use((response)=>{
-
+    console.log("response in interecept ", response);
+    return response;
 },
-(error)=>{
+async(error)=>{
+    const originalRequest = error.config;
+    
+    console.log("refresh_token-step-1");
+    //if the error is due to an "unauthorized" response
+    if(error.response.status === 401 && !originalRequest._retry){
+        originalRequest._retry = true;
+
+        try{
+            //Attempt to refresh the access token
+            console.log("refresh_token-step-2");
+            const newAccessToken = await getAccessTokenUsingRefreshToken();
+            originalRequest.headers.Authorization = newAccessToken;
+            return privateApi(originalRequest);
+        }
+        catch(refreshError){
+            return Promise.reject(refreshError);
+        }
+    }
     console.log("error in privateapi response interceptor", error);
     return Promise.reject(error);
 })
