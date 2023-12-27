@@ -113,22 +113,22 @@ const CodeSpace = () => {
         <div className='bg-dark-2 text-sm w-full px-3 py-1 flex md:justify-start justify-between items-center'>
                         <div className={`text-gray-400 md:pr-4 pr-2 border border-transparent border-r-gray-600 font-medium text-sm md:text-md`}><HiOutlineCodeBracket className='inline text-lg text-green-600 mx-1' /> Code</div>
                         <div className={`text-gray-400' md:px-4 px-2  border border-transparent border-r-gray-600`}><MdOutlineScience className='inline text-blue-800 mx-1 text-lg' />
-                            <Dropdown label="Dropdown button" className='bg-dark-2 border-none ' dismissOnClick={true} renderTrigger={() => <button className='md:px-2 px-1 py-1 text-xs bg-black shadow-lg rounded-md text-light-1 font-medium'>{programmingLanguage.name}</button>}>
+                            <Dropdown label="Dropdown button" className='bg-white py-2 dark:bg-black' dismissOnClick={true} renderTrigger={() => <button className='md:px-2 px-1 py-1 text-xs bg-black shadow-lg rounded-md text-light-1 font-medium'>{programmingLanguage.name}</button>}>
                               {
                                 LanguageAPI.map(({id,name, value})=>{
                                   return (
                                     
-                                <Dropdown.Item key={id} className=' text-light-1 hover:bg-black hover:teaxt-black group' onClick={() => changeProgrammingLanguage({id,name,value})} ><span className='group-hover:text-black'>{name}</span></Dropdown.Item>
+                                <Dropdown.Item key={id} className='bg-black text-light-1 hover:bg-light-1 dark:focus:bg-light-1 group' onClick={() => changeProgrammingLanguage({id,name,value})} ><span className='group-hover:text-black'>{name}</span></Dropdown.Item>
                                   )
                                 })
                               }
                             </Dropdown>
                         </div>
                         <div className={`text-gray-400 px-4 border border-transparent border-r-gray-600 justify-self-end`}><BsFillMoonStarsFill className='inline text-yellow-500 mx-1 text-md ' />
-                            <Dropdown label="Dropdown button" className='bg-dark-2 border-none ' dismissOnClick={true} renderTrigger={() => <button className='px-2 py-1 text-xs bg-black shadow-lg rounded-md text-light-1 font-medium'>{theme.label}</button>}>
+                            <Dropdown label="Dropdown button" className='bg-black dark:bg-black border-none ' dismissOnClick={true} renderTrigger={() => <button className='px-2 py-1 text-xs bg-black  shadow-lg rounded-md text-light-1 font-medium'>{theme.label}</button>}>
                             {Object.entries(monacoThemes).map(([themeId, themeName]) => {
                                 return(
-                            <Dropdown.Item onClick={()=>handleThemeChange({value:themeId, label: themeName})} key={themeId} value={themeId}  className=' text-light-1 hover:bg-black hover:teaxt-black group' ><span className='group-hover:text-black'>{themeName}</span></Dropdown.Item>
+                            <Dropdown.Item onClick={()=>handleThemeChange({value:themeId, label: themeName})} key={themeId} value={themeId}  className=' text-light-1  hover:bg-light-1 dark:focus:bg-light-1 group' ><span className='group-hover:text-black'>{themeName}</span></Dropdown.Item>
 
                                 )
                             })}

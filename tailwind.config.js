@@ -25,10 +25,19 @@ module.exports = {
       },
       height: {
         '90/100': '90%',
-      }
+      },
+      animation: {
+        'forward-slow': 'forward 3s linear infinite',
+      },
+      keyframes: {
+        forward: {
+          '0%': { transform: 'translateX(-100px)' },
+          '100%': { transform: 'translateX(100px)' },
+        }
     },
   },
   plugins: [
     require('flowbite/plugin'),
 ],
+}
 }
