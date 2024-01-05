@@ -153,6 +153,6 @@ export const getUserProfile = createAsyncThunk('user/getUserProfile', async ({},
     }
     catch(error){
         console.log("get user profile thunk failed", error);
-        rejectWithValue(error.response);
+        return rejectWithValue(error.response);
     }   
 })

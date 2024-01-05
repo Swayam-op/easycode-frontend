@@ -35,7 +35,7 @@ const Problems = () => {
                 {item.status === "solved"?<BsCheck2Circle className='text-green-500 text-xl'/>:item.status === "attempted"? <FaRegCircleXmark className="text-lg text-red-600"/>:<FiEdit className='text-lg text-yellow-500'/>}
                 </td>
                 <td colSpan={5} class="px-6 py-4 cursor-pointer  truncate ">
-                <Link to={`/editor/${key}`} className='hover:text-dark-1'>{item.title}</Link>
+                <Link to={`/editor/${key}`} target='_blank' className='hover:text-dark-1'>{item.title}</Link>
                 </td>
                 <td colSpan={3} class="px-6 py-4">
                 {item.acceptance}
