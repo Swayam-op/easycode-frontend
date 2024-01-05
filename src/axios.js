@@ -34,7 +34,7 @@ privateApi.interceptors.request.use((config)=>{
     config.headers = {
         ...config.headers,
         "Content-Type" : "application/json",
-        "Authorization" : accesstoken
+        "Authorization" : 'Bearer ' + accesstoken
     }
     console.log("private_api intereceptor request config", config);
     return config;
@@ -60,7 +60,7 @@ async(error)=>{
             //Attempt to refresh the access token
             console.log("refresh_token-step-2");
             const newAccessToken = await getAccessTokenUsingRefreshToken();
-            originalRequest.headers.Authorization = newAccessToken;
+            originalRequest.headers.Authorization = 'Bearer ' + newAccessToken;
             return privateApi(originalRequest);
         }
         catch(refreshError){

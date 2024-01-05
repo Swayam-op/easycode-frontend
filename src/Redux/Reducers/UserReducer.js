@@ -76,7 +76,10 @@ const UserReducer = createSlice({
             })
             .addCase(loginThunk.rejected, (state, action) => {
                 state.isLoading = false;
-                state.error = { message: action.payload.data.message, statuscode: action.payload.status };
+                if(!action.payload)
+                    state.error = "Server Crashed";
+                else
+                    state.error = { message: action.payload.data.message, statuscode: action.payload.status };
             })
             .addCase(getUserProfile.pending, (state)=>{
                 state.isLoading = true;

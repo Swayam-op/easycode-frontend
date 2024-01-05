@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import UserReducer from "./Reducers/UserReducer";
-
+import CodeReducer from "./Reducers/CodeReducer";
 export default  configureStore({
     reducer : {
-        userReducer: UserReducer
+        userReducer: UserReducer,
+        codeReducer:CodeReducer
     },
     middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
