@@ -32,7 +32,7 @@ const Navbar = () => {
   }
 
   useEffect(()=>{
-    console.log("isAuthenticated : ",isAuthenticated);
+    console.log("isAuthenticated in side navbar : ",isAuthenticated);
   },[isAuthenticated]);
   return (
     <div className='w-full lg:px-12 md:px-8 px-2  bg-light-1 text-black flex'>

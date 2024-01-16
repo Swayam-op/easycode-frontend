@@ -3,52 +3,69 @@ import './App.css';
 import { Routes } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import SIgnup from './Pages/SIgnup';
-import Navbar from './Components/Navbar';
 import Signin from './Pages/Signin';
 import Problems from './Pages/Problems';
 import Editor from './Pages/Editor';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setLogin, setLogout } from './Redux/Reducers/UserReducer';
 import { getAccessToken } from './Services/storage';
 import NotAuthenticated from './Hooks/NotAuthenticated';
 import Loading from './Pages/Loading';
 import { ToastContainer } from 'react-toastify';
 import ToastHandler from './Components/ToastHandler';
+import HomeLayout from './Pages/HomeLayout';
+import Authenticated from './Hooks/Authenticated';
+import { isUserAuthenticatedThunk, getIsAuthenticated } from './Redux/Reducers/UserReducer';
+import { useEffect, useState } from 'react';
 
 function App() {
   const dispatch = useDispatch();
-  const accesstoken = getAccessToken();
+  const isAuthenticated = useSelector(getIsAuthenticated);
+    if(isAuthenticated === null){
+      console.log("what is going on")
+      dispatch(isUserAuthenticatedThunk());
+    }
+    // 
 
-  if (accesstoken) {
-    dispatch(setLogin());
-  }
-  else {
-    dispatch(setLogout());
-  }
+
 
   return (<>
-  <div className='absolute w-96'><ToastContainer/></div> 
-      <div className='bg-black relative min-h-screen'>
-      
-      <Loading/>
-      <ToastHandler/>
-      <Navbar />
+    <div className='bg-black relative min-h-screen'>
+
+      <Loading />
+      {/* <ToastHandler/> */}
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <Routes>
-        <Route exact path='/' element={<>welcome</>} />
-        <Route exact path='/problems' element={<Problems />} />
-        <Route exact path='/explore' element={<>explore</>} />
-        <Route exact path='/interview' element={<>interview</>} />
-        <Route exact path='/discuss' element={<>discuss</>} />
+        <Route path='/' element={<HomeLayout />}>
+          <Route exact path='/' element={<>welcome</>} />
+          <Route exact path='/problems' element={<Problems />} />
+          <Route exact path='/explore' element={<>explore</>} />
+          <Route exact path='/interview' element={<>interview</>} />
+          <Route exact path='/discuss' element={<>discuss</>} />
+        </Route>
+        <Route path='/' element={<Authenticated />}>
+        <Route path='/editor/:questionId' element={<Editor />} />
+        </Route>
         
-        <Route exact path='/editor/:pid' element={<Editor />} />
         <Route path='*' element={<div className='text-white'>Error</div>} />
-        <Route path='/' element={<NotAuthenticated/>}>
-        <Route  path='signup' element={<SIgnup />} />
-        <Route  path='signin' element={<Signin />} />
+        <Route path='/' element={<NotAuthenticated />}>
+          <Route path='signup' element={<SIgnup />} />
+          <Route path='signin' element={<Signin />} />
         </Route>
       </Routes>
     </div>
-    </>
+  </>
   );
 }
 

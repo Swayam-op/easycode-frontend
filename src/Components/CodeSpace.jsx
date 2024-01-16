@@ -7,10 +7,20 @@ import {BsFillMoonStarsFill} from 'react-icons/bs'
 import { defineTheme, monacoThemes } from "../Api/CodeEditorTheme";
 import { LanguageAPI } from "../Api/LanguagesAPI";
 import axios from "axios";
-const CodeSpace = () => {
-  const [value, setValue] = useState("");
+import { VscDebugRerun } from "react-icons/vsc";
+import { LiaCloudUploadAltSolid } from "react-icons/lia";
+import { useDispatch, useSelector } from "react-redux";
+import { selectQuestion } from "../Redux/Reducers/QuestionReducer";
+import { runCodeThunk, selectIsLoadingOfCode, submitCodeThunk } from "../Redux/Reducers/CodeReducer";
+import CodeEditorLoading from "./CodeEditorLoading";
+
+const CodeSpace = ({switchContainer}) => {
+  const dispatch = useDispatch();
+  const isLoadingOfCode = useSelector(selectIsLoadingOfCode);
+  const [sourceCode, setSourceCode] = useState("");
+  const question = useSelector(selectQuestion);
   const [programmingLanguage, setProgrammingLanguage] = useState(LanguageAPI[0]);
-  const [theme, setTheme] = useState({ value: "night-owl", label: "Night Owl" });
+  const [theme, setTheme] = useState({ value: "spacecadet", label: "SpaceCadet" });
   const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
   const [processing, setProcessing] = useState(null);
@@ -22,10 +32,10 @@ const CodeSpace = () => {
     setCustomInput("");
     console.log(outputDetails, processing, checkStatus);
   }
-
+  
 
   const handleEditorChange = (value, language) => {
-    setValue(value);
+    setSourceCode(value);
     // onChange("code", value);
   };
   
@@ -40,48 +50,30 @@ const CodeSpace = () => {
     }
   }
   
-  const handleCompile = async() => {
-    setProcessing(true);
-    const formData = {
-      language_id: programmingLanguage.id,
-      // encode source code in base64
-      source_code: btoa(value),
-      stdin: btoa(customInput),
-    };
-    console.log(formData);
-    console.log(process.env.REACT_APP_RAPID_API_URL);
-    const options = {
-      method: "POST",
-      url: process.env.REACT_APP_RAPID_API_URL,
-      params: { base64_encoded: "true", fields: "*" },
-      headers: {
-        "content-type": "application/json",
-        "Content-Type": "application/json",
-        "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST,
-        "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
-      },
-      data: formData,
-    };
-
-    axios
-      .request(options)
-      .then(function (response) {
-        console.log("res.data code", response);
-        const token = response.data.token;
-        settoken(()=>token);
-        console.log(token ," is token");
-        setTimeout(() => {
-          checkStatus(token);
-        }, 2000);
-        
-      })
-      .catch((err) => {
-        let error = err.response ? err.response.data : err;
-        setProcessing(false);
-        console.log("code error is ",error);
-      });
+  const handleRunCode = () => {
+    if(programmingLanguage && question){
+      const data = {
+        language_id : programmingLanguage.id,
+        question_id : question._id,
+        source_code : sourceCode
+      }
+      console.log("Data to be run ", data);
+      dispatch(runCodeThunk(data));
+    }
   };
   
+  const handleSubmitCode = ()=>{
+    if(programmingLanguage && question){
+      const data = {
+        language_id : programmingLanguage.id,
+        question_id : question._id,
+        source_code : sourceCode
+      }
+      console.log("Data to be submited ", data);
+      dispatch(submitCodeThunk(data));
+    }
+  }
+
   const checkStatus = async (token) => {
     const options = {
       method: "GET",
@@ -103,17 +95,22 @@ const CodeSpace = () => {
   };
 
   useEffect(() => {
-    defineTheme("night-owl").then((_) =>
-      setTheme({ value: "night-owl", label: "Night Owl" })
+    defineTheme("spacecadet").then((_) =>
+      setTheme({ value: "spacecadet", label: "SpaceCadet" })
     );
-  }, []);
+    if(question && !sourceCode){
+    setSourceCode(question.recommendedCode);
+    }
+    console.log("is loadingi n code",isLoadingOfCode)
+  }, [question, isLoadingOfCode]);
 
   return (
-    <div className="w-full md:h-full h-screen">
+    <div className="w-full h-full  flex flex-col ">
+    
         <div className='bg-dark-2 text-sm w-full px-3 py-1 flex md:justify-start justify-between items-center'>
                         <div className={`text-gray-400 md:pr-4 pr-2 border border-transparent border-r-gray-600 font-medium text-sm md:text-md`}><HiOutlineCodeBracket className='inline text-lg text-green-600 mx-1' /> Code</div>
                         <div className={`text-gray-400' md:px-4 px-2  border border-transparent border-r-gray-600`}><MdOutlineScience className='inline text-blue-800 mx-1 text-lg' />
-                            <Dropdown label="Dropdown button" className='bg-white py-2 dark:bg-black' dismissOnClick={true} renderTrigger={() => <button className='md:px-2 px-1 py-1 text-xs bg-black shadow-lg rounded-md text-light-1 font-medium'>{programmingLanguage.name}</button>}>
+                            <Dropdown label="Dropdown button" className='bg-white py-2 dark:bg-black' dismissOnClick={true} renderTrigger={() => <button className='md:px-2 px-1 py-1 text-xs  shadow-lg rounded-md text-light-1 font-medium'>{programmingLanguage.name}</button>}>
                               {
                                 LanguageAPI.map(({id,name, value})=>{
                                   return (
@@ -125,7 +122,7 @@ const CodeSpace = () => {
                             </Dropdown>
                         </div>
                         <div className={`text-gray-400 px-4 border border-transparent border-r-gray-600 justify-self-end`}><BsFillMoonStarsFill className='inline text-yellow-500 mx-1 text-md ' />
-                            <Dropdown label="Dropdown button" className='bg-black dark:bg-black border-none ' dismissOnClick={true} renderTrigger={() => <button className='px-2 py-1 text-xs bg-black  shadow-lg rounded-md text-light-1 font-medium'>{theme.label}</button>}>
+                            <Dropdown label="Dropdown button" className='bg-black dark:bg-black border-none ' dismissOnClick={true} renderTrigger={() => <button className='px-2 py-1 text-xs  shadow-lg rounded-md text-light-1 font-medium'>{theme.label}</button>}>
                             {Object.entries(monacoThemes).map(([themeId, themeName]) => {
                                 return(
                             <Dropdown.Item onClick={()=>handleThemeChange({value:themeId, label: themeName})} key={themeId} value={themeId}  className=' text-light-1  hover:bg-light-1 dark:focus:bg-light-1 group' ><span className='group-hover:text-black'>{themeName}</span></Dropdown.Item>
@@ -137,15 +134,19 @@ const CodeSpace = () => {
 
                             </Dropdown>
                         </div>
-                        <button onClick={handleCompile} className="px-5 py-2 bg-dark-2 text-light-1">Run code</button>
+                        <div className="grow flex flex-row items-center justify-end">
+                        <button onClick={()=>{handleRunCode();switchContainer("testresult")}} className="px-6 py-2 rounded-md flex items-center font-medium  bg-black text-light-1"><VscDebugRerun className="text-light-2 text-lg"/> <span className="block text-sm ml-2">Run</span></button>
+                        <button onClick={()=>{handleSubmitCode();switchContainer("submissions")}} className="px-6 py-2 rounded-md flex items-center font-medium mx-4 bg-black text-light-1"><LiaCloudUploadAltSolid className="text-lg text-green-500"/> <span className="block text-sm ml-2 text-green-500">Submit</span></button>
+                        </div>
 
                     </div>
-                    <div className="overlay rounded-md h-90/100  w-full shadow-4xl">
+                    <div className="overlay rounded-md grow relative w-full shadow-4xl">
+                    <div className={`${isLoadingOfCode === false ? "hidden" : "block"} absolute inset-0 z-40 `}><CodeEditorLoading/></div>
       <Editor
-        height="100%"
+        // height="100%"
         width={`100%`}
         language={programmingLanguage.value}
-        value={value}
+        value={sourceCode}
         theme={theme.value}
         defaultValue="// some comment"
         onChange={handleEditorChange}

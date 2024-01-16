@@ -1,53 +1,59 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { selectQuestion } from '../Redux/Reducers/QuestionReducer'
 
 const DescriptionContainer = () => {
+  const question = useSelector(selectQuestion);
+  useEffect(()=>{
+    console.log("contraint", question)
+  },[question])
   return (
+    <>
+    {
+    question && 
     <div className='w-full'>
-      <h1 className='text-2xl mb-10'>138. Copy List with Random Pointer</h1>
+      <h1 className='text-2xl mb-10'>{question.questionNo}. {question.questionName}</h1>
       {/* question section --------------------------- */}
       <div className='qsn'>
-        <p className='mb-4'>
-          Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+      {
+        question.description.map((paragraph, index)=>{
+          return (
+            <p key={index} className='mb-4'>
+          {paragraph}
         </p>
-        <p className='mb-4'>
-          You may assume that each input would have exactly one solution, and you may not use the same element twice.
-        </p>
-        <p className='mb-4'>
-          You can return the answer in any order.
-        </p>
+          )
+        })
+      }
       </div>
       {/* example sections ------------------------------ */}
       <div className='examples mb-4'>
-        <div className='py-2'>
-          <h1 className='text-lg font-medium mb-2'>Example 1:</h1>
+      {
+        question.examples.map((testCase, index)=>{
+          return(
+            <div key={index} className='py-2'>
+          <h1 className='text-lg font-medium mb-2'>Example {index+1}:</h1>
           <div className='border border-transparent border-l-dark-1'>
-            <p className='px-4 font-medium'><h2 className=' inline'>Inputs: &nbsp; </h2> <span className='text-gray-4'>nums = [2,7,11,15], target = 9</span> </p>
-            <p className='px-4 font-medium'><h2 className='font-medium inline'>Output : &nbsp; </h2> <span className='text-gray-4'> [0,1]</span></p>
-            <p className='px-4 font-medium'><h2 className='font-medium inline'>Explanations :&nbsp; </h2> <span className='text-gray-4'>Because nums[0] + nums[1] == 9, we return [0, 1].</span></p>
+            <p className='px-4 font-medium'><h2 className=' inline'>Inputs: &nbsp; </h2> <span className='text-gray-4'>{testCase.input}</span> </p>
+            <p className='px-4 font-medium'><h2 className='font-medium inline'>Output : &nbsp; </h2> <span className='text-gray-4'> {testCase.output}</span></p>
+            <p className='px-4 font-medium'><h2 className='font-medium inline'>Explanations :&nbsp; </h2> <span className='text-gray-4'>{testCase.explanation}</span></p>
           </div>
         </div>
-        <div className='py-2' >
-          <h1 className='text-lg font-medium mb-2'>Example 2:</h1>
-          <div className='border border-transparent border-l-dark-1'>
-            <p className='px-4 font-medium'><h2 className='font-medium inline'>Inputs : &nbsp;</h2> <span className='text-gray-4'>nums = [3,2,4], target = 6</span></p>
-            <p className='px-4 font-medium'><h2 className='font-medium inline'>Output :&nbsp; </h2> <span className='text-gray-4'>[1,2]</span></p>
-          </div>
-        </div>
-        <div className='py-2'>
-          <h1 className='text-lg font-medium mb-2'>Example 3:</h1>
-          <div className='border border-transparent border-l-dark-1'>
-            <p className='px-4 font-medium'><h2 className='font-medium inline'>Inputs : &nbsp;</h2><span className='text-gray-4'> nums = [3,3], target = 6</span></p>
-            <p className='px-4 font-medium'><h2 className='font-medium inline'>Output :&nbsp; </h2><span className='text-gray-4'> [0,1]</span></p>
-          </div>
-        </div>
+          )
+          
+        })
+      }
       </div>
       {/* Contraint sectionv---------------------------------- */}
       <div className='w-full py-4'>
       <h1 className='font-medium mb-2 text-lg'>Contraints</h1>
       <ul className='list-disc list-inside'>
-        <li className='py-2 text-sm'><span className='bg-gray-1 border border-gray-4 rounded-md p-1'>{"2 <= nums.length <= 104"}</span></li>
-        <li className='py-2 text-sm'><span className='bg-gray-1 border border-gray-4 rounded-md p-1'>{"-109 <= nums[i] <= 109"}</span></li>
-        <li className='py-2 text-sm'><span className='bg-gray-1 border border-gray-4 rounded-md p-1'>{"-109 <= target <= 109"}</span></li>
+      {
+        question.constraint.map((cons)=>{
+          return(
+            <li className='py-2 text-sm'><span className='bg-gray-1 border border-gray-4 rounded-md p-1'>{cons}</span></li>
+          )
+        })
+      }
       </ul>
       </div>
       {/* acceptance, submission ---------------------------- */}
@@ -57,6 +63,8 @@ const DescriptionContainer = () => {
       <h1 className='text-sm px-3 '>Acceptance Rate <span className='font-medium px-1'>50.19%</span></h1>
       </div>
     </div>
+  }
+    </>
   )
 }
 

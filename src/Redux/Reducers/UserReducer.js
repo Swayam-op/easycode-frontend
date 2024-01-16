@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { publicApi, privateApi } from "../../axios";
 import { clearTokens, setAccessToken, setRefreshToken } from "../../Services/storage";
-
+import { successToast, errorToast } from "../../Components/ToastHandler";
 
 const initialState = {
-    isAuthenticated: false,
+    isAuthenticated: null,
     user: null,
-    error: null,     // {message  :" ", statuscode : 400}
-    success: null,  // {message : " ", statuscode : 200}
+    error: null,     
+    success: null,  
     isLoading: false,
 }
 
@@ -24,6 +24,8 @@ const UserReducer = createSlice({
             state.user = null;
             state.error = null;
             state.success = null;
+            console.log("isAuntheticated set logout: ", state.isAuthenticated);
+            
         },
         setUser: (state, action) => {
             state.user = action.payload;
@@ -52,7 +54,7 @@ const UserReducer = createSlice({
             //singup extra reducer
             .addCase(signupUserThunk.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.success = { message: action.payload.data.message, statuscode: action.payload.status };
+                state.success = action.payload.data.message;
                 console.log("singup fulfilled state : ", state, action);
             })
             .addCase(signupUserThunk.pending, (state) => {
@@ -60,7 +62,7 @@ const UserReducer = createSlice({
             })
             .addCase(signupUserThunk.rejected, (state, action) => {
                 state.isLoading = false;
-                state.error = { message: action.payload.data.message, statuscode: action.payload.status };
+                state.error =  action.payload.data.message;
                 console.log("singup rejected state : ", state, action.payload);
             })
             //login extra reducer
@@ -70,16 +72,18 @@ const UserReducer = createSlice({
             })
             .addCase(loginThunk.fulfilled, (state, action) => {
                 console.log("loginthunk fulfilled : ", action.payload);
-                state.success = { message: action.payload.data.message, statuscode: action.payload.status };
+                state.success =  action.payload.data.message;
                 state.isAuthenticated = true;
                 state.isLoading = false;
+                successToast(state.success);
             })
             .addCase(loginThunk.rejected, (state, action) => {
                 state.isLoading = false;
                 if(!action.payload)
                     state.error = "Server Crashed";
                 else
-                    state.error = { message: action.payload.data.message, statuscode: action.payload.status };
+                    state.error =  action.payload.data.message;
+                errorToast(state.error);
             })
             .addCase(getUserProfile.pending, (state)=>{
                 state.isLoading = true;
@@ -92,7 +96,22 @@ const UserReducer = createSlice({
             .addCase(getUserProfile.rejected,(state, action)=>{
                 state.isLoading = false;
                 state.isAuthenticated = false;
-                state.error = { message: action.payload.data.message, statuscode: action.payload.status };
+                state.error =  action.payload.data.message;
+            })
+            .addCase(isUserAuthenticatedThunk.pending,(state)=>{
+                state.isLoading = true;
+                console.log("pending in ex reducer")
+            })
+            .addCase(isUserAuthenticatedThunk.fulfilled,(state)=>{
+                state.isAuthenticated = true;
+                state.isLoading = false;
+                console.log("fulfilled in ex reducer")
+
+            })
+            .addCase(isUserAuthenticatedThunk.rejected,(state)=>{
+                state.isLoading = false;
+                state.isAuthenticated = false;
+                console.log("erro in extraauthuser")
             })
     }
 });
@@ -100,7 +119,7 @@ const UserReducer = createSlice({
 export default UserReducer.reducer;
 export const { setLogin, setLogout, setUserError, setUserSuccess, clearUserError, clearUserSuccess, setLoadingTrue } = UserReducer.actions;
 export const getIsAuthenticated = (state) => state.userReducer.isAuthenticated;
-export const getIsLoadingStateOdUser = (state) => state.userReducer.isLoading;
+export const getIsLoadingStateOfUser = (state) => state.userReducer.isLoading;
 export const getSuccessOfUser = (state) => state.userReducer.success;
 export const getErrorOfUser = (state) => state.userReducer.error;
 
@@ -138,13 +157,14 @@ export const loginThunk = createAsyncThunk('user/loginThunk', async (loginDetail
     }
 });
 
-export const logoutThunk = createAsyncThunk('user/logoutThunk', async({}, { dispatch }) => {
+export const logoutThunk = createAsyncThunk('user/logoutThunk', async(_, { dispatch }) => {
     console.log("logout");
     clearTokens();
-    dispatch(setLogout());
+    dispatch(setLogout({}));
+    return {};
 })
 
-export const getUserProfile = createAsyncThunk('user/getUserProfile', async ({},{rejectWithValue}) => {
+export const getUserProfile = createAsyncThunk('user/getUserProfile', async (_,{rejectWithValue}) => {
     console.log("get user progile thunk");
     try{
         const response = await privateApi.get('/user/get-user-details');
@@ -155,4 +175,16 @@ export const getUserProfile = createAsyncThunk('user/getUserProfile', async ({},
         console.log("get user profile thunk failed", error);
         return rejectWithValue(error.response);
     }   
+})
+
+export const isUserAuthenticatedThunk = createAsyncThunk('user/isUserAuthenticated',async(_,{rejectWithValue})=>{
+    try{
+        const response = await privateApi.get('/user/is-authenticated');
+        console.log("reponse in isAuthenticted", response);
+        return response;
+    }
+    catch(error){
+        console.log("error on isatuhetinciad", error)
+        return rejectWithValue(error.response);
+    }
 })

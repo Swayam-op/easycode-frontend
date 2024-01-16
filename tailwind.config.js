@@ -15,6 +15,7 @@ module.exports = {
         'gray-1' : '#333533',
         'gray-2' : '#343a40',
         'gray-4' : '#6c757d',
+        'light-3' : '#dee2e6',
       },
       boxShadow:{
         'shadow-1' : 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px',
@@ -39,5 +40,14 @@ module.exports = {
   plugins: [
     require('flowbite/plugin'),
 ],
+borderWidth: {
+  DEFAULT: '0.5px',
+  '0': '0',
+  '2': '2px',
+  '3': '3px',
+  '4': '4px',
+  '6': '6px',
+  '8': '8px',
+}
 }
 }
