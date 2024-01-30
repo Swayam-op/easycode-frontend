@@ -1,19 +1,17 @@
 import React, { useEffect } from 'react'
-import { problemsApi } from '../Api/ProblemsApi';
 import { BsCheck2Circle } from 'react-icons/bs';
-import { FaRegCircleXmark } from 'react-icons/fa6';
-import { FiEdit } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { getAllQuestionsThunk, selectAllQuestion } from '../Redux/Reducers/QuestionReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { BiShieldAlt2 } from "react-icons/bi";
+import { getIsAuthenticated } from '../Redux/Reducers/UserReducer';
 const Problems = () => {
     const dispatch = useDispatch();
     const allQuestions = useSelector(selectAllQuestion);
+    const isUserAuthenticated = useSelector(getIsAuthenticated);
     useEffect(() => {
-        dispatch(getAllQuestionsThunk());
-        console.log("all questions in porblems", allQuestions);
-    }, [])
+        dispatch(getAllQuestionsThunk()); // question api will be called based on user authentication
+    }, [isUserAuthenticated, dispatch])
 
     return (
         <div className='w-full lg:px-48 py-10'>
@@ -43,16 +41,15 @@ const Problems = () => {
                                     <tr className={`${key % 2 === 0 ? "bg-black" : "bg-dark-2"}`}>
                                         <td colSpan={1} class="px-6 py-4  font-medium text-gray-900 ">
                                             {
-                                                item.hasSolvedProblem ?
-                                                <BsCheck2Circle className='text-green-500 text-xl' /> : item.hasAttempted ?
-                                                <FaRegCircleXmark className="text-lg text-red-600" /> : <BiShieldAlt2 className='text-lg text-gray-4' />
+                                                item.hasSolved?
+                                                <BsCheck2Circle className='text-green-500 text-xl' /> : <BiShieldAlt2 className='text-lg text-gray-4' />
                                             }
                                         </td>
                                         <td colSpan={5} class="px-6 py-4 cursor-pointer  truncate ">
-                                            <Link to={`/editor/${item._id}`} target='_blank' className='hover:text-dark-1'>{item.questionName}</Link>
+                                            <Link to={`/problems/${item._id}`} target='_blank' className='hover:text-light-2'>{item.questionName}</Link>
                                         </td>
                                         <td colSpan={3} class="px-6 py-4">
-                                            {item.acceptance}
+                                            {item.acceptance || "70%"}
                                         </td>
                                         <td colSpan={3} class={`capitalize font-medium px-6 py-4 ${item.level === "easy" ? "text-green-500" : item.level === "medium" ? "text-yellow-500" : "text-red-600"}`}>
                                             {item.level}

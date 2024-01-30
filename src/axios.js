@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getAccessToken, getAccessTokenUsingRefreshToken, getRefreshToken } from "./Services/storage";
 import {STATUS} from './Services/StatusCode';
-import { notAuthenticated } from "./Services/Auth";
+
 
 const publicApi = axios.create({
     baseURL : 'http://localhost:5000/v1/public_api'

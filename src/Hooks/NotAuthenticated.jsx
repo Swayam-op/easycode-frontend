@@ -14,7 +14,7 @@ export default function NotAuthenticated(){
             console.log("Error")
         }
         
-    },[isAuthenticated])
+    },[isAuthenticated, navigate])
     return(
         <>
         {isAuthenticated === false ?  <Outlet/> : navigate('/') }

@@ -12,6 +12,6 @@ export default function Authenticated() {
     if (isAuthenticated === false) {
       navigate("/signin");
     }
-  }, []);
+  }, [navigate, isAuthenticated]);
   return <>{isAuthenticated === true ? <Outlet /> : navigate("/signin")}</>;
 }

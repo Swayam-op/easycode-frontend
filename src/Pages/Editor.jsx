@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react'
 import { TbFileDescription } from 'react-icons/tb'; // description icon
 import { MdOutlineScience } from 'react-icons/md'; // solutions icon
-import { PiClockClockwiseBold } from 'react-icons/pi'; // submission icon
 
 import DescriptionContainer from '../Components/DescriptionContainer';
 import CodeSpace from '../Components/CodeSpace';
@@ -14,27 +13,38 @@ import { BiCodeAlt } from "react-icons/bi";
 import { AiFillTrophy } from "react-icons/ai";
 import { AiOutlineReconciliation } from "react-icons/ai";
 import { useParams } from 'react-router';
-import { selectQuestion, getQuestionByIdThunk } from '../Redux/Reducers/QuestionReducer';
-import { useDispatch, useSelector } from 'react-redux';
+import { getQuestionByIdThunk } from '../Redux/Reducers/QuestionReducer';
+import { useDispatch } from 'react-redux';
+import SolutionContianer from '../Components/SolutionContianer';
+
 
 const Editor = () => {
-    const {questionId} = useParams();
+    const {id} = useParams();
     const dispatch = useDispatch();
     const [leftContainer, setLeftContainer] = useState("description");
-
+    const [isShowSolutionVisible, setIsShowSolutionVisible] = useState("hidden");
 
     const switchContainer = (currentContainer)=>{
         setLeftContainer(currentContainer);
     }
     
-    useEffect(()=>{
-        console.log(questionId);
-        dispatch(getQuestionByIdThunk({questionId}));
+    function alterSolutionVisibility(){
+        if(isShowSolutionVisible === "hidden"){
+            setIsShowSolutionVisible("block");
+        }
+        else{
+            setIsShowSolutionVisible("hidden");
+        }
+    }
 
-    },[questionId])
+    useEffect(()=>{
+        console.log(id);
+        dispatch(getQuestionByIdThunk({questionId : id}));
+    },[id, dispatch])
 
     return (
         <div className='relative w-full sm:h-screen  bg-black text-light-1'>
+
             <div className='w-full h-full flex md:flex-row flex-col justify-between'>
                 <div id='left_container' className='h-full w-full flex flex-col mr-1 md:basis-5/12 '>
                     <div className='bg-dark-2 text-sm w-full px-5 py-2.5 flex justify-start'>
@@ -49,7 +59,7 @@ const Editor = () => {
 
                     {
                         leftContainer === "description" ? <DescriptionContainer/> :
-                        (leftContainer === "solutions" ? <>Solution</> : 
+                        (leftContainer === "solutions" ? <SolutionContianer alterSolutionVisibility = {alterSolutionVisibility}/> : 
                         (leftContainer === "submissions" ? <SubmissionContainer/> :
                         (leftContainer === "testcase" ? <TestCasesContainer/> : 
                         <TestResultContainer/>)))

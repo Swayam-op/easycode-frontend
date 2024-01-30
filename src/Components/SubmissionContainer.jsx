@@ -5,15 +5,20 @@ import { FaHandsClapping } from "react-icons/fa6";
 import { MdOutlineMemory } from "react-icons/md";
 import { GoCopy } from "react-icons/go";
 import ClipboardJS from "clipboard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   selectIsLoadingOfCode,
   selectSubmitCodeResult,
 } from "../Redux/Reducers/CodeReducer";
 import TestResultSkeleton from "./TestResultSkeleton";
+import { useLocation } from "react-router";
+import { Link } from "react-router-dom";
+import { setSolutionCode } from "../Redux/Reducers/SolutionReducer";
 
 const SubmissionContainer = () => {
+  const dispatch = useDispatch();
   const submitResult = useSelector(selectSubmitCodeResult);
+  const location = useLocation();
   const isLoadingOfCode = useSelector(selectIsLoadingOfCode);
   const [errorMessage, setErrorMessage] = useState(null);
   const [data, setData] = useState({});
@@ -44,6 +49,7 @@ const SubmissionContainer = () => {
         submitedAtTime,
         time_taken,
       });
+
       if(compile_output || error_message || runTime_message){
         console.log("ame st karuchiu error")
         setErrorMessage({
@@ -58,10 +64,12 @@ const SubmissionContainer = () => {
         console.log(submitResult.message);
       }
       else{
+        setErrorMessage(null);
         setResultColor("green-500");
+        dispatch(setSolutionCode({code : source_code}));
       }
     }
-  }, [submitResult]);
+  }, [submitResult, dispatch]);
 
   const handleCopy = () => {
     const clipboard = new ClipboardJS(".copy-btn", {
@@ -117,10 +125,10 @@ const SubmissionContainer = () => {
                     </div>
                   </div>
                   <div className="grow py-2">
-                    <button className="px-5 py-1.5 float-right text-sm bg-green-500 rounded-md shadow-md cursor-pointer hover:bg-green-600 font-medium tracking-wide">
+                    <Link to={`${location.pathname}/write-solution`} className={`${submitResult.message === 'Accepted' ? "block" : "hidden"} px-5 py-1.5 float-right text-sm bg-green-500 rounded-md shadow-md cursor-pointer hover:bg-green-600 font-medium tracking-wide`}>
                       <CiEdit className="inline mr-3 text-lg font-medium text-light-1" />
                       Solution
-                    </button>
+                    </Link>
                   </div>
                 </div>
 

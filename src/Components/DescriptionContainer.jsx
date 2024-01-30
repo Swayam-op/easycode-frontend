@@ -32,7 +32,7 @@ const DescriptionContainer = () => {
           return(
             <div key={index} className='py-2'>
           <h1 className='text-lg font-medium mb-2'>Example {index+1}:</h1>
-          <div className='border border-transparent border-l-dark-1'>
+          <div className='border border-transparent border-l-gray-4 border-opacity-30'>
             <p className='px-4 font-medium'><h2 className=' inline'>Inputs: &nbsp; </h2> <span className='text-gray-4'>{testCase.input}</span> </p>
             <p className='px-4 font-medium'><h2 className='font-medium inline'>Output : &nbsp; </h2> <span className='text-gray-4'> {testCase.output}</span></p>
             <p className='px-4 font-medium'><h2 className='font-medium inline'>Explanations :&nbsp; </h2> <span className='text-gray-4'>{testCase.explanation}</span></p>

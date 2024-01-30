@@ -4,7 +4,6 @@ import {
   selectRunCodeResult,
 } from "../Redux/Reducers/CodeReducer";
 import { useSelector } from "react-redux";
-import CodeEditorLoading from "./CodeEditorLoading";
 import TestResultSkeleton from "./TestResultSkeleton";
 
 const TestResultContainer = () => {
@@ -31,6 +30,8 @@ const TestResultContainer = () => {
       });
       if(testResult.message !== "Accepted"){
         setResultColor("red-500")
+      }else{
+        setResultColor("green-500")
       }
       console.log("Test Result is ", testResult);
     }
@@ -79,7 +80,7 @@ const TestResultContainer = () => {
                     >
                       {" "}
                       <span
-                        className={`text-${resultColor} rounded-full mr-1 -translate-y-1/2 w-1 h-1 inline-block`}
+                        className={`bg-${resultColor} rounded-full mr-1 -translate-y-1/2 w-1 h-1 inline-block`}
                       ></span>{" "}
                       Case-{ind + 1}
                     </button>

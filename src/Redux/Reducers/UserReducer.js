@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { publicApi, privateApi } from "../../axios";
 import { clearTokens, setAccessToken, setRefreshToken } from "../../Services/storage";
-import { successToast, errorToast } from "../../Components/ToastHandler";
+import { successToast, errorToast } from "../../Services/ToastHandler";
+
 
 const initialState = {
     isAuthenticated: null,
@@ -9,6 +10,7 @@ const initialState = {
     error: null,     
     success: null,  
     isLoading: false,
+    signUpsuccess : false
 }
 
 const UserReducer = createSlice({
@@ -55,6 +57,8 @@ const UserReducer = createSlice({
             .addCase(signupUserThunk.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.success = action.payload.data.message;
+                state.signUpsuccess = true;
+                successToast("You're signedup.")
                 console.log("singup fulfilled state : ", state, action);
             })
             .addCase(signupUserThunk.pending, (state) => {
@@ -122,6 +126,7 @@ export const getIsAuthenticated = (state) => state.userReducer.isAuthenticated;
 export const getIsLoadingStateOfUser = (state) => state.userReducer.isLoading;
 export const getSuccessOfUser = (state) => state.userReducer.success;
 export const getErrorOfUser = (state) => state.userReducer.error;
+export const selectSignUpSucess = (state) => state.userReducer.signUpsuccess;
 
 export const signupUserThunk = createAsyncThunk('user/signupUserThunk', async (signupDetails, { dispatch, rejectWithValue }) => {
     try {

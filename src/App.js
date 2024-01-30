@@ -7,16 +7,15 @@ import Signin from './Pages/Signin';
 import Problems from './Pages/Problems';
 import Editor from './Pages/Editor';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLogin, setLogout } from './Redux/Reducers/UserReducer';
-import { getAccessToken } from './Services/storage';
 import NotAuthenticated from './Hooks/NotAuthenticated';
 import Loading from './Pages/Loading';
 import { ToastContainer } from 'react-toastify';
-import ToastHandler from './Components/ToastHandler';
 import HomeLayout from './Pages/HomeLayout';
 import Authenticated from './Hooks/Authenticated';
 import { isUserAuthenticatedThunk, getIsAuthenticated } from './Redux/Reducers/UserReducer';
-import { useEffect, useState } from 'react';
+import Profile from './Pages/Profile';
+import WriteSolution from './Pages/WriteSolution';
+import ShowSolution from './Components/Modal/ShowSolution';
 
 function App() {
   const dispatch = useDispatch();
@@ -53,9 +52,13 @@ function App() {
           <Route exact path='/explore' element={<>explore</>} />
           <Route exact path='/interview' element={<>interview</>} />
           <Route exact path='/discuss' element={<>discuss</>} />
+          <Route path='/profile' element={<Profile/>} />
+          <Route path='/problems/:id/write-solution' element={<WriteSolution/>} />
+          <Route path='/problems/:id/solution/:solutionId' element={<ShowSolution/>} />
         </Route>
         <Route path='/' element={<Authenticated />}>
-        <Route path='/editor/:questionId' element={<Editor />} />
+        <Route path='/problems/:id' element={<Editor />} />
+        
         </Route>
         
         <Route path='*' element={<div className='text-white'>Error</div>} />
