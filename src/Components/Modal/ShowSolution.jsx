@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import { useDispatch, useSelector } from "react-redux";
-import { addLikesToSolutionThunk, addViewsToSolutionThunk, getDetailsOfSolutionThunk, selectSingleSolutionInfo } from "../../Redux/Reducers/SolutionReducer";
+import { addLikesToSolutionThunk, getDetailsOfSolutionThunk, selectSingleSolutionInfo } from "../../Redux/Reducers/SolutionReducer";
 import SolutionDetailsCard from "../Cards/SolutionDetailsCard";
 import { IoMdClose } from "react-icons/io"
 import { useNavigate, useParams } from "react-router";
@@ -22,7 +22,6 @@ const ShowSolution = () => {
   const  dispatchAll = useCallback(
     async() => {
         const promises = [
-            dispatch(addViewsToSolutionThunk(solutionId)),
         dispatch(getDetailsOfSolutionThunk(solutionId))
         ]
         await Promise.all(promises);

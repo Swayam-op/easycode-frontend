@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const LineBar = ({color, percentage}) => {
+  useEffect(()=>{},[percentage])
   return (
     <div className="mb-4 ">
       <div className="w-full flex justify-between mb-1">

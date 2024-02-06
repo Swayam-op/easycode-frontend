@@ -7,7 +7,7 @@ const SolutionListCard = ({detail}) => {
   return (
     <div className="flex items-start w-full cursor-pointer mb-4">
       <div className="shadow-md mt-1 rounded-full overflow-hidden flex justify-center items-start w-6 h-6">
-              <img src={detail.profile_picture || "/profile.JPG"}  alt="" />
+              <img src={detail.profile_picture || "/default_profile_picture.jpeg"}  alt="" />
       </div>
       <div className="ml-4 pb-4 w-full border border-transparent border-b-gray-4 border-opacity-30 ">
       <p className="w-full flex justify-between items-center">

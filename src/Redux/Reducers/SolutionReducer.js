@@ -94,16 +94,7 @@ export const getSolutionsThunk = createAsyncThunk('solution/getSolution',async(i
     }
 })
 
-export const addViewsToSolutionThunk = createAsyncThunk('/solution/addViewsToSolution',async(solutionId,{rejectWithValue})=>{
-    try{
-        console.log("views added ", solutionId)
-        const response = await privateApi.put('/solution/add-views-to-solution/?solutionId='+solutionId);
-        return response;
-    }
-    catch(error){
-        return rejectWithValue(error.response);
-    }
-})
+
 
 export const addLikesToSolutionThunk = createAsyncThunk('/solution/addLikesToSolution',async(solutionId,{rejectWithValue})=>{
     try{
