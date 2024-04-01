@@ -5,7 +5,7 @@ import { selectQuestion } from '../Redux/Reducers/QuestionReducer'
 const DescriptionContainer = () => {
   const question = useSelector(selectQuestion);
   useEffect(()=>{
-    console.log("contraint", question)
+    //console.log("contraint", question)
   },[question])
   return (
     <>

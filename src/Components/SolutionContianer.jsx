@@ -26,7 +26,7 @@ const SolutionContianer = ({alterSolutionVisibility}) => {
   }
    const  dispatchAll = useCallback(
     async()=>{
-        // console.log("when solution lIST IS LOADED, ", solutionsList)
+        // //console.log("when solution lIST IS LOADED, ", solutionsList)
           const info = {
             questionId: id,
             skip: 0,
@@ -45,7 +45,7 @@ const SolutionContianer = ({alterSolutionVisibility}) => {
     if (id ) {
         dispatchAll();
     }
-    console.log("hello solution contianer")
+    //console.log("hello solution contianer")
   }, [id, dispatchAll]);
 
   return (

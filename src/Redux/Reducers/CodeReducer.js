@@ -18,14 +18,14 @@ const codeReducer = createSlice({
     extraReducers : (builder)=>{
         builder
         .addCase(runCodeThunk.pending, (state)=>{
-            console.log("runcodethunk pending");
+            //console.log("runcodethunk pending");
             state.isLoading = true;
         })
         .addCase(runCodeThunk.fulfilled, (state, action)=>{
             state.runCodeResult = action.payload.data;
             state.success = action.payload.data.message;
             state.isLoading = false;
-            console.log("runcodethunk fulfilled");
+            //console.log("runcodethunk fulfilled");
         })
         .addCase(runCodeThunk.rejected,(state, action)=>{
             let error = "";
@@ -66,14 +66,14 @@ export default codeReducer.reducer;
 export const runCodeThunk = createAsyncThunk('/code/runCodeThunk',async(data,{rejectWithValue})=>{
     try{
         const response = await privateApi.post('/code/run-code', data);
-        console.log('Reponse in runcode thunk : ', response);
+        //console.log('Reponse in runcode thunk : ', response);
         return response;
     }
     catch(error){
         if(!error.response){
             throw error;
         }
-        console.log("error in run code thunk",error.response);
+        //console.log("error in run code thunk",error.response);
         return rejectWithValue(error.response);
     }
 });
@@ -81,7 +81,7 @@ export const runCodeThunk = createAsyncThunk('/code/runCodeThunk',async(data,{re
 export const submitCodeThunk = createAsyncThunk('/code/submitCodeThunk',async(data,{rejectWithValue})=>{
     try{
         const response = await privateApi.post('/code/submit-code',data);
-        console.log('Response in submitcode thunk : ', response);
+        //console.log('Response in submitcode thunk : ', response);
         return response;
     }
     catch(error){

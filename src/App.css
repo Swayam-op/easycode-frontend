@@ -1,22 +1,49 @@
+
 .scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: #000 #343a40;
-  }
-  
-  
-  /* For Chrome, EDGE, Opera, Others */
-  .scrollbar::-webkit-scrollbar {
-    width: 2px;
-    height: 2px;
-  }
-  
-  .scrollbar::-webkit-scrollbar-track { 
-    background: #252422;
-    border-radius: 5px;
-  }
-  
-  .scrollbar::-webkit-scrollbar-thumb { 
-    background:#343a40;
-    border-radius: 5px;
-  }
- 
+  scrollbar-width: thin;
+  scrollbar-color: #000 #343a40;
+}
+
+
+/* For Chrome, EDGE, Opera, Others */
+.scrollbar::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+}
+
+.scrollbar::-webkit-scrollbar-track { 
+  background: #252422;
+  border-radius: 5px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb { 
+  background:#343a40;
+  border-radius: 5px;
+}
+
+.scrollbar::-webkit-scrollbar-button {
+  display: none;
+}
+.scrollbar_2{
+scrollbar-width: thin;
+scrollbar-color: #000 #343a40;
+}
+
+.scrollbar_2::-webkit-scrollbar {
+width: 0.5px;
+/* height: 2px; */
+}
+
+.scrollbar_2::-webkit-scrollbar-track { 
+background: #252422;
+border-radius: 5px;
+}
+
+.scrollbar_2::-webkit-scrollbar-thumb { 
+background:#343a40;
+border-radius: 5px;
+}
+
+.text-glow {
+  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #00c4ff, 0 0 70px #00c4ff, 0 0 80px #00c4ff, 0 0 100px #00c4ff, 0 0 150px #00c4ff;
+}

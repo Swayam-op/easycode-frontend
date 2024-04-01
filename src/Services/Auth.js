@@ -4,6 +4,7 @@ import { clearTokens } from "./storage";
 
 export function notAuthenticated(){
     clearTokens();
-    errorToast("Session is expired");
+    errorToast("Not Authenticated");
     // window.location.href = '/sigin';
 } 
+

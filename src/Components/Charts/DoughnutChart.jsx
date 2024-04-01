@@ -6,7 +6,7 @@ Chart.register(ArcElement);
 const DoughnutChart = ({numberOfQuestionsSolved, totalNumberOfQuestions}) => {
   const [solved, unsolved] = useMemo(()=>{
     const value = numberOfQuestionsSolved/totalNumberOfQuestions * 100;
-    console.log(value);
+    //console.log(value);
     return [value, 100-value];
   },[numberOfQuestionsSolved, totalNumberOfQuestions]);
 

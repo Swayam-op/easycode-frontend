@@ -33,7 +33,7 @@ const TestResultContainer = () => {
       }else{
         setResultColor("green-500")
       }
-      console.log("Test Result is ", testResult);
+      //console.log("Test Result is ", testResult);
     }
   }, [testResult]);
 
@@ -79,9 +79,14 @@ const TestResultContainer = () => {
                       } border border-black rounded-lg px-4 py-1.5 mx-2 tracking-wider hover:text-black hover:bg-light-3`}
                     >
                       {" "}
-                      <span
-                        className={`bg-${resultColor} rounded-full mr-1 -translate-y-1/2 w-1 h-1 inline-block`}
-                      ></span>{" "}
+                      {
+                        expectedOutputResults && (
+                          <span
+                        className={`bg-${expectedOutputResults[ind] === outputResults[ind]?"green-500" : "red-500"} rounded-full mr-1 -translate-y-1/2 w-1 h-1 inline-block`}
+                      ></span>
+                        )
+                      }
+                      {" "}
                       Case-{ind + 1}
                     </button>
                   );

@@ -44,11 +44,11 @@ const CodeSpace = ({ switchContainer }) => {
 
   function handleThemeChange(th) {
     const theme = th;
-    console.log("theme...", theme);
+    //console.log("theme...", theme);
 
-   
-    defineTheme(theme.value).then((_) => {setTheme(theme); console.log("theme updated")});
-  
+
+    defineTheme(theme.value).then((_) => { setTheme(theme); });
+
   }
 
   const handleRunCode = () => {
@@ -58,7 +58,7 @@ const CodeSpace = ({ switchContainer }) => {
         question_id: question._id,
         source_code: sourceCode,
       };
-      console.log("Data to be run ", data);
+      //console.log("Data to be run ", data);
       dispatch(runCodeThunk(data));
     }
   };
@@ -70,35 +70,35 @@ const CodeSpace = ({ switchContainer }) => {
         question_id: question._id,
         source_code: sourceCode,
       };
-      console.log("Data to be submited ", data);
+      //console.log("Data to be submited ", data);
       dispatch(submitCodeThunk(data));
     }
   };
 
 
   useEffect(() => {
-    if(theme){
-      defineTheme(theme.value).then((_)=>{});
+    if (theme) {
+      defineTheme(theme.value).then((_) => { });
     }
-    else{
+    else {
       defineTheme("spacecadet").then((_) =>
-      setTheme({ value: "spacecadet", label: "SpaceCadet" }));
+        setTheme({ value: "spacecadet", label: "SpaceCadet" }));
     }
- 
 
-    
-    
-    if(solutionCode && sourceCode !== solutionCode){
+
+
+
+    if (solutionCode && sourceCode === question.recommendedCode) {
       setSourceCode(solutionCode);
     }
     else if (question && !sourceCode) {
       setSourceCode(question.recommendedCode);
     }
-  }, [question, solutionCode,theme, sourceCode ]);
+  }, [question, solutionCode, theme, sourceCode]);
 
   return (
     <div className="w-full h-full  flex flex-col ">
-      <div className="bg-dark-2 text-sm w-full px-3 py-1 flex md:justify-start justify-between items-center">
+      <div className="bg-dark-2 text-sm w-full overflow-x-auto px-3 py-1 flex flex-wrap mb-1 sm:mb-0 justify-start  items-center">
         <div
           className={`text-gray-400 md:pr-4 pr-2 border border-transparent border-r-gray-600 font-medium text-sm md:text-md`}
         >
@@ -162,13 +162,13 @@ const CodeSpace = ({ switchContainer }) => {
             })}
           </Dropdown>
         </div>
-        <div className="grow flex flex-row items-center justify-end">
+        <div className="grow flex flex-row items-center mt-2 sm:mt-0 sm:justify-end">
           <button
             onClick={() => {
               handleRunCode();
               switchContainer("testresult");
             }}
-            className="px-6 py-2 rounded-md flex items-center font-medium  bg-black text-light-1"
+            className="flex items-center py-2 px-6 text-center rounded-md font-semibold text-sm text-light-1 bg-black hover:bg-dark-4 bg-gradient-to-br from-bg-dark-5 to-bg-dark-4 shadow-shadow-inset-2"
           >
             <VscDebugRerun className="text-light-2 text-lg" />{" "}
             <span className="block text-sm ml-2">Run</span>
@@ -178,7 +178,7 @@ const CodeSpace = ({ switchContainer }) => {
               handleSubmitCode();
               switchContainer("submissions");
             }}
-            className="px-6 py-2 rounded-md flex items-center font-medium mx-4 bg-black text-light-1"
+            className="flex items-center py-2 px-6 ml-4 text-center rounded-md font-semibold text-sm text-light-1 bg-black hover:bg-dark-4 bg-gradient-to-br from-bg-dark-5 to-bg-dark-4 shadow-shadow-inset-2"
           >
             <LiaCloudUploadAltSolid className="text-lg text-green-500" />{" "}
             <span className="block text-sm ml-2 text-green-500">Submit</span>
@@ -187,9 +187,8 @@ const CodeSpace = ({ switchContainer }) => {
       </div>
       <div className="overlay rounded-md grow relative w-full shadow-4xl">
         <div
-          className={`${
-            isLoadingOfCode === false ? "hidden" : "block"
-          } absolute inset-0 z-40 `}
+          className={`${isLoadingOfCode === false ? "hidden" : "block"
+            } absolute inset-0 z-40 `}
         >
           <LoadingEditor />
         </div>
@@ -205,5 +204,5 @@ const CodeSpace = ({ switchContainer }) => {
       </div>
     </div>
   );
-};
+}
 export default CodeSpace;

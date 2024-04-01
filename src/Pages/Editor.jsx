@@ -38,7 +38,7 @@ const Editor = () => {
     }
 
     useEffect(()=>{
-        console.log(id);
+        //console.log(id);
         dispatch(getQuestionByIdThunk({questionId : id}));
     },[id, dispatch])
 
@@ -47,7 +47,7 @@ const Editor = () => {
 
             <div className='w-full h-full flex md:flex-row flex-col justify-between'>
                 <div id='left_container' className='h-full w-full flex flex-col mr-1 md:basis-5/12 '>
-                    <div className='bg-dark-2 text-sm w-full px-5 py-2.5 flex justify-start'>
+                    <div className='bg-dark-2 text-sm w-full px-5 py-2.5 flex justify-start overflow-x-auto'>
                         <button onClick={()=>switchContainer("description")} className={`flex items-center ${leftContainer === "description" ? '' : 'text-gray-400'} px-3 border border-transparent border-r-gray-600`}><TbFileDescription className='text-dark-1 mx-1 text-lg' /> Description</button>
                         <button onClick={()=>switchContainer("solutions")} className={`flex items-center ${leftContainer === "solutions" ? '' : 'text-gray-400'} px-3 border border-transparent border-r-gray-600`}><MdOutlineScience className='text-lg text-blue-800 mx-1' /> Solutions</button>
                         <button onClick={()=>switchContainer("submissions")}  className={`flex items-center ${leftContainer === "submissions" ? '' : 'text-gray-400'} px-3 border border-transparent border-r-gray-600`}><AiFillTrophy className='text-yellow-500 text-lg mx-1' /> Submission</button>
@@ -55,7 +55,7 @@ const Editor = () => {
                         <button onClick={()=>switchContainer("testresult")} className={`flex items-center ${leftContainer === "testresult" ? '' : 'text-gray-400'} px-3 `}><AiOutlineReconciliation className='text-orange-500 text-lg mx-1' /> Test Result</button>
 
                     </div>
-                    <div className='w-full grow scrollbar  overflow-y-scroll text-light-1 py-8 md:px-7'>
+                    <div className='w-full grow scrollbar  overflow-y-scroll text-light-1 py-8 px-1 md:px-7'>
 
                     {
                         leftContainer === "description" ? <DescriptionContainer/> :
