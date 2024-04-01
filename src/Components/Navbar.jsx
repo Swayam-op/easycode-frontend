@@ -3,13 +3,13 @@ import {FaCodeMerge} from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
-import {FaUserNinja} from 'react-icons/fa';
-import { getIsAuthenticated, logoutThunk} from '../Redux/Reducers/UserReducer';
+import { SelectIsAuthenticated, logoutThunk, selectShortUserDetails} from '../Redux/Reducers/AuthReducer';
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const [displayProfile, setDisplayProfile] = useState('hidden');
-  const isAuthenticated = useSelector(getIsAuthenticated);
+  const isAuthenticated = useSelector(SelectIsAuthenticated);
+  const userShortDetails = useSelector(selectShortUserDetails);
   const location = useLocation();
   const displayProfileHandle = ()=>{
     if(displayProfile === "hidden"){
@@ -21,17 +21,17 @@ const Navbar = () => {
   }
   
   function logoutHandle(){
-    console.log("logout handle");
+    //console.log("logout handle");
     dispatch(logoutThunk({}));
     setDisplayProfile("hidden");
   }
 
 
   useEffect(()=>{
-    console.log("isAuthenticated in side navbar : ",isAuthenticated);
+    //console.log("isAuthenticated in side navbar : ",isAuthenticated);
   },[isAuthenticated]);
   return (
-    <div className='w-full lg:px-12 md:px-8 px-2 text-light-1 bg-dark-3 flex'>
+    <div className='hidden sm:flex w-full lg:px-12 md:px-8 px-2 text-light-1 bg-dark-3'>
     <div className='flex items-center basis-1/2 justify-between'>
     <div className='flex basis-1/3 items-center font-bold uppercase'><FaCodeMerge className="text-light-2 text-xl font-bold inline mr-2"/> <span className='text-lg text-light-2 -tracking-tight'>EASy</span><span className='text-lg text-light-1'>CODE</span></div>
     <div className='flex basis-2/3 w-full  pr-10 justify-between'>
@@ -45,15 +45,21 @@ const Navbar = () => {
       {
         isAuthenticated === false? 
         (<div className='basis-1/2 flex justify-evenly'>
-        <Link to={'/signup'} className='py-2.5 px-8 border border-gray-2 shadow-md text-sm font-semibold text-dgray-2 transition-colors duration-200 hover:text-white rounded-md hover:bg-dark-2'>Sign up</Link>
-        <Link to={'/signin'} className='py-2.5 px-8 border border-light-2 shadow-md text-sm font-semibold text-light-2 transition-colors duration-200 hover:text-white rounded-md hover:bg-dark-2'>Sign in</Link>
+        <Link to={'/signup'} className='py-2.5 px-8 text-center rounded-md font-semibold text-sm text-light-1 bg-black hover:bg-dark-4  shadow-shadow-inset-2'>Sign up</Link>
+        <Link to={'/signin'} className='py-2.5 px-8 text-center rounded-md font-semibold text-sm text-light-1 bg-black hover:bg-dark-4  shadow-shadow-inset-2'>Sign in</Link>
         </div>)
 
         :
 
         (<div>
           <div className='relative'>
-            <button onClick={displayProfileHandle} className=' bg-light-1 shadow-shadow-1 p-2 rounded-full group hover:bg-dark-2 transition-colors duration-300 ease-in'><FaUserNinja className='text-xl group-hover:text-light-1 text-light-2 transition-colors duration-300 ease-in'/>
+            <button onClick={displayProfileHandle} className='w-9 h-9 border border-dark-5 hover:border-2 shadow-shadow-1 rounded-full group bg-dark-2'> 
+            <div
+                                className="w-full h-full bg-cover bg-center rounded-full"
+                                style={{
+                                    backgroundImage: `url(${userShortDetails ? userShortDetails.profilePicture : "default_profile_picture.jpeg"})`,
+                                }}
+                            ></div>
             </button>
             <div className={`${displayProfile} z-20 absolute right-0 top-10 rounded-sm shadow-md border border-gray-4 w-fit bg-dark-2 text-light-1`}>
               <Link to='/profile' className='px-5 py-2 block border border-transparent border-b-gray-4'>Profile</Link>

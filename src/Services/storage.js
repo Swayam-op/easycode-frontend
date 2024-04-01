@@ -21,15 +21,12 @@ export function clearTokens(){
 
 export async function getAccessTokenUsingRefreshToken(){
     const refreshtoken = getRefreshToken();
-    try{
         const reponse = await publicApi.post('/login-by-refreshtoken',{refreshtoken});
         const new_accesstoken = reponse.data.accesstoken;
         const new_refreshtoken = reponse.data.new_refreshtoken;
         setAccessToken(new_accesstoken);
         setRefreshToken(new_refreshtoken);
         return new_accesstoken;
-    }
-    catch(error){
-        return error;
-    }
+
+
 }

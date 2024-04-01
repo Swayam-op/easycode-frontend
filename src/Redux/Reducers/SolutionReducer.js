@@ -21,9 +21,9 @@ const solutionReducer = createSlice({
             state.singleSolutionInfo = action.payload;
         },
         clearSolutionList : (state, action)=>{
-            console.log("it's empty now")
+            //console.log("it's empty now")
             state.solutionList = [];
-        }
+        },
     },
     extraReducers : (builder)=>{
         builder.addCase(uploadSolutionThunk.pending,(state)=>{
@@ -84,9 +84,9 @@ export const uploadSolutionThunk = createAsyncThunk('solution/uploadSolution',as
 
 export const getSolutionsThunk = createAsyncThunk('solution/getSolution',async(info, {rejectWithValue})=>{
     try{
-        console.log("started")
+        //console.log("started")
         const response = await privateApi.get(`/solution/get-solutions?questionId=${info.questionId}&skip=${info.skip}&count=10`);
-        console.log("enend")
+        //console.log("enend")
         return response;
     }
     catch(error){

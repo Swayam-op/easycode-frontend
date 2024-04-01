@@ -39,7 +39,7 @@ const SubmissionContainer = () => {
         submitedAtTime,
         time_taken,
       } = submitResult.data;
-      console.log("submit result ", submitResult);
+      //console.log("submit result ", submitResult);
       setData({
         expectedOutputToDisplay,
         hiddenTestCasesToDisplay,
@@ -51,7 +51,7 @@ const SubmissionContainer = () => {
       });
 
       if(compile_output || error_message || runTime_message){
-        console.log("ame st karuchiu error")
+        //console.log("ame st karuchiu error")
         setErrorMessage({
           compile_output,
           error_message,
@@ -61,7 +61,7 @@ const SubmissionContainer = () => {
       
       if (submitResult.message !== "Accepted") {
         setResultColor("red-500");
-        console.log(submitResult.message);
+        //console.log(submitResult.message);
       }
       else{
         setErrorMessage(null);
@@ -77,7 +77,7 @@ const SubmissionContainer = () => {
     });
 
     clipboard.on("success", (e) => {
-      console.log("Copied to clipboard");
+      //console.log("Copied to clipboard");
       e.clearSelection();
       clipboard.destroy();
       setCopyButtonColor("text-green-500");

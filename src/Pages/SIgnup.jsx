@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState} from 'react'
 import {FaCodeMerge} from 'react-icons/fa6';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { signupUserThunk } from '../Redux/Reducers/UserReducer';
-import { selectSignUpSucess } from '../Redux/Reducers/UserReducer';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signupThunk } from '../Redux/Reducers/AuthReducer';
+
 
 const SIgnup = () => {
   const dispatch = useDispatch();
-  const signUpsuccess = useSelector(selectSignUpSucess);
-  const navigate = useNavigate();
   const [signupDetails, setSignupDetails] = useState({
     username: "",
     password: "",
@@ -21,19 +19,14 @@ const SIgnup = () => {
   }
   
   const uploadSignupDetails = ()=>{
-    console.log(signupDetails);
-    dispatch(signupUserThunk(signupDetails));
+    //console.log(signupDetails);
+    dispatch(signupThunk(signupDetails));
   }
 
-  useEffect(() => {
-    if(signUpsuccess){
-      navigate('/signin');
-    }
-  }, [signUpsuccess, navigate])
   
   return (
     <div className='relative w-full py-6 bg-gradient-to-br from-black to-dark-2 flex justify-center items-center'>
-    <div className='lg:w-98 md:w-96 px-8 py-10 w-full  rounded-sm bg-light-1 shadow-shadow-1 '>
+    <div className='lg:w-98 md:w-96 px-8 py-10 w-full  rounded-md bg-light-1 shadow-shadow-1 '>
     <div className='grid place-content-center mb-7'>
     <center className='mb-5'><FaCodeMerge className="text-3xl text-dark-2 " /></center>
     <h1 className='text-2xl -tracking-tight font-bold'><span className=' text-light-2'>EASY</span><span className='uppercase text-2xl text-black'>Code</span></h1>

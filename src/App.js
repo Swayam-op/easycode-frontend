@@ -12,19 +12,30 @@ import Loading from './Pages/Loading';
 import { ToastContainer } from 'react-toastify';
 import HomeLayout from './Pages/HomeLayout';
 import Authenticated from './Hooks/Authenticated';
-import { isUserAuthenticatedThunk, getIsAuthenticated } from './Redux/Reducers/UserReducer';
+import { isUserAuthenticatedThunk, SelectIsAuthenticated } from './Redux/Reducers/AuthReducer';
 import Profile from './Pages/Profile';
 import WriteSolution from './Pages/WriteSolution';
 import ShowSolution from './Components/Modal/ShowSolution';
+import { useEffect } from 'react';
+import Discussion from './Pages/Discussion';
+import DiscussionChat from './Pages/DiscussionChat';
+import { Home } from './Pages/Home';
+import Interview from './Pages/Interview';
+import Error from './Pages/Error';
+
 
 function App() {
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector(getIsAuthenticated);
+  const isAuthenticated = useSelector(SelectIsAuthenticated);
+
+  useEffect(()=>{
     if(isAuthenticated === null){
-      console.log("what is going on")
+      //console.log("what is going on");
       dispatch(isUserAuthenticatedThunk());
     }
     // 
+  }, [isAuthenticated, dispatch])
+    
 
 
 
@@ -45,28 +56,34 @@ function App() {
         pauseOnHover
         theme="dark"
       />
+
       <Routes>
         <Route path='/' element={<HomeLayout />}>
-          <Route exact path='/' element={<>welcome</>} />
+          <Route exact path='/' element={<Home/>} />
           <Route exact path='/problems' element={<Problems />} />
-          <Route exact path='/explore' element={<>explore</>} />
-          <Route exact path='/interview' element={<>interview</>} />
-          <Route exact path='/discuss' element={<>discuss</>} />
-          <Route path='/profile' element={<Profile/>} />
-          <Route path='/problems/:id/write-solution' element={<WriteSolution/>} />
-          <Route path='/problems/:id/solution/:solutionId' element={<ShowSolution/>} />
+          <Route exact path='/explore' element={<Home/>} />
+          <Route exact path='/interview' element={<Interview/>} />
+          <Route exact path='/discuss' element={<Discussion/>} />
+          
         </Route>
+
         <Route path='/' element={<Authenticated />}>
+        <Route path='/' element={<HomeLayout />}>
+        <Route path='/profile' element={<Profile/>} />
+        </Route>
         <Route path='/problems/:id' element={<Editor />} />
-        
+        <Route path='/problems/:id/write-solution' element={<WriteSolution/>} />
+          <Route path='/problems/:id/solution/:solutionId' element={<ShowSolution/>} />
+        <Route exact path='/discuss/chat/:roomId' element={<DiscussionChat/>} />
         </Route>
         
-        <Route path='*' element={<div className='text-white'>Error</div>} />
+        <Route path='*' element={<Error/>} />
         <Route path='/' element={<NotAuthenticated />}>
           <Route path='signup' element={<SIgnup />} />
           <Route path='signin' element={<Signin />} />
         </Route>
       </Routes>
+
     </div>
   </>
   );

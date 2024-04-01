@@ -14,9 +14,8 @@ const ShowSolution = () => {
   const solutionInfo = useSelector(selectSingleSolutionInfo);
 
   function alterLikes (){
-    dispatch(addLikesToSolutionThunk(solutionId)).then(()=>{
-        dispatch(getDetailsOfSolutionThunk(solutionId));
-    });
+    //console.log("like is done")
+    dispatch(addLikesToSolutionThunk(solutionId))
   }
 
   const  dispatchAll = useCallback(

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { privateApi } from "../../axios";
 import { STATUS } from "../../Services/StatusCode";
-import { notAuthenticated } from "../../Services/Auth";
+// import { notAuthenticated } from "../../Services/Auth";
 
 const initialState = {
     isLoading : false,
@@ -23,11 +23,11 @@ const QuestionReducer = createSlice({
         .addCase(getAllQuestionsThunk.fulfilled, (state,action)=>{
             state.allQuestions = action.payload.data.data;
             state.isLoading = false;
-            console.log("question extra reducer ",action.payload.data.data);
+            //console.log("question extra reducer ",action.payload.data.data);
         })
         .addCase(getAllQuestionsThunk.rejected, (state, action)=>{
             state.isLoading = false;
-            console.log("error in question extra reducer ",action.payload);
+            //console.log("error in question extra reducer ",action.payload);
         })
         .addCase(getQuestionByIdThunk.pending, (state)=>{
             state.isLoading = true;
@@ -38,9 +38,7 @@ const QuestionReducer = createSlice({
         })
         .addCase(getQuestionByIdThunk.rejected, (state, action)=>{
             state.isLoading = false;
-            if(action.payload.status === STATUS.UNAUTHORIZED)
-            notAuthenticated();
-            console.log("erro is getqsnid rejecred",action.payload);
+            //console.log("erro is getqsnid rejecred",action.payload);
         })
     }
 });
@@ -52,11 +50,11 @@ export default QuestionReducer.reducer;
 export const getAllQuestionsThunk = createAsyncThunk('question/getAllQuestionsThunk',async(_, {dispatch, rejectWithValue})=>{
     try{
         const response = await privateApi.get('/question/get-questions');
-        // console.log("questio nthunk", response);
+        // //console.log("questio nthunk", response);
         return response;
     }
     catch(error){
-        // console.log("error in q -thunk ",error);
+        // //console.log("error in q -thunk ",error);
         return rejectWithValue(error.response);
     }
 })
