@@ -23,7 +23,7 @@ const Discussion = () => {
           </p>
         </div>
         <div className='w-full box-border p-10' >
-          <img src="/images/discussion.svg" alt="" />
+          <img src="/Images/discussion.svg" alt="" />
         </div>
       </div>
 

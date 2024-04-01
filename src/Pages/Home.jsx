@@ -18,7 +18,7 @@ export const Home = () => {
     <div className='w-full md:basis-5/12  flex justify-center  mb-10'>
         <div className='md:w-7/12 w-10/12 h-fit relative bg'>
             <div className='absolute z-10 w-full h-3/4 shadow-shadow-1 bg-gradient-to-br from-dark-4 to-dark-5 rounded-3xl bottom-0'></div>
-            <img className='z-30 relative block ' src={'/images/cpp.png'} alt="" />
+            <img className='z-30 relative block ' src={'/Images/cpp.png'} alt="" />
         </div>
 
     </div>
