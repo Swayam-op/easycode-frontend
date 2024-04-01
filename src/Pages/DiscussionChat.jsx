@@ -129,7 +129,7 @@ const DiscussionChat = () => {
             window.removeEventListener('beforeunload', handleWindowClose);
             handleWindowClose();
         };
-    }, [userDetails, isAuthenticated, recieveMessage, roomId, scrollToBottom, socket, dispatch])
+    }, [userDetails])
 
     
 
