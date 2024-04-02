@@ -42,7 +42,7 @@ const AuthReducer = createSlice({
             state.isLoading = false;
             state.message =  action.payload.data.message;
             state.statusCode = action.payload.status;
-
+            errorToast(action.payload.data.message);
             //console.log("singup rejected state : ", state, action.payload);
         })
         //login extra reducer
