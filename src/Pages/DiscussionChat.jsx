@@ -112,15 +112,17 @@ const DiscussionChat = () => {
         const handleWindowClose = (event) => {
             if (userDetails && socket.connected) {
                 socket.emit('discussion_disconnect', roomId); // custome disconnect for only discussion socket
-                //console.log("socket is disconnecting")
-                socket.disconnect();
-    
+                console.log("socket is disconnecting before")
+         
+                
                 //to prevent multiple triggering of same socket-event. That causes repeatation of messages.
                 socket.off('activeUsers', handleActiveUsers);
                 socket.off('message_from_room', recieveMessage);
     
                 //clearing discussionDetails to make api-call everytime user comes to this page
                 dispatch(clearDiscussionDetails());
+                socket.disconnect();
+                console.log("socket is disconnecting after")
             }
         };
     
