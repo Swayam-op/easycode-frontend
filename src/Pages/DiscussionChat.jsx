@@ -84,6 +84,7 @@ const DiscussionChat = () => {
 
 
     useEffect(() => {
+        console.log(userDetails, socket)
         if (isAuthenticated && !userDetails) { // 
             dispatch(get_User_Room_PreviousMessages({ roomId }));
         }
@@ -129,7 +130,7 @@ const DiscussionChat = () => {
             window.removeEventListener('beforeunload', handleWindowClose);
             handleWindowClose();
         };
-    }, [userDetails])
+    }, [userDetails, isAuthenticated])
 
     
 
