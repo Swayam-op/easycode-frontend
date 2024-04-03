@@ -24,6 +24,9 @@ const solutionReducer = createSlice({
             //console.log("it's empty now")
             state.solutionList = [];
         },
+        clearSingleSolutionInfo : (state, action)=>{
+            state.singleSolutionInfo = null
+        }
     },
     extraReducers : (builder)=>{
         builder.addCase(uploadSolutionThunk.pending,(state)=>{
@@ -69,7 +72,7 @@ export default solutionReducer.reducer;
 export const selectSulutionList = (state)=> state.solutionReducer.solutionList;
 export const selectSolutionCode = (state)=> state.solutionReducer.solutionCode;
 export const selectSingleSolutionInfo = (state) => state.solutionReducer.singleSolutionInfo;
-export const {setSolutionCode, setSingleSolutionInfo, clearSolutionList} = solutionReducer.actions;
+export const {setSolutionCode, setSingleSolutionInfo, clearSolutionList, clearSingleSolutionInfo} = solutionReducer.actions;
 
 
 export const uploadSolutionThunk = createAsyncThunk('solution/uploadSolution',async(solution, {dispatch, rejectWithValue})=>{

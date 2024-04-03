@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import { useDispatch, useSelector } from "react-redux";
-import { addLikesToSolutionThunk, getDetailsOfSolutionThunk, selectSingleSolutionInfo } from "../../Redux/Reducers/SolutionReducer";
+import { addLikesToSolutionThunk, clearSingleSolutionInfo, getDetailsOfSolutionThunk, selectSingleSolutionInfo } from "../../Redux/Reducers/SolutionReducer";
 import SolutionDetailsCard from "../Cards/SolutionDetailsCard";
 import { IoMdClose } from "react-icons/io"
 import { useNavigate, useParams } from "react-router";
@@ -33,7 +33,9 @@ const ShowSolution = () => {
     if(solutionId){
         dispatchAll();
     }
-
+    return ()=>{
+      dispatch(clearSingleSolutionInfo());
+    }
   }, [solutionId, dispatchAll]);
   return (
     <section className={`w-full p-5 h-screen overflow-y-scroll scrollbar bg-black absolute z-50`}>
