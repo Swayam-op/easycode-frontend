@@ -28,7 +28,7 @@ const WriteSolution = () => {
   },[solutionCode])
   return (
     <div className="max-w-6xl mx-auto bg-dark-3 bg-opacity-30 rounded-md mt-2">
-      <div className="w-full py-5 px-4 grid gap-2 grid-cols-2">
+      <div className="w-full py-5 px-4 grid gap-2 grid-cols-1 sm:grid-cols-2">
         <input
         value={title}
           type="text"
@@ -36,7 +36,7 @@ const WriteSolution = () => {
           placeholder="Write your title"
           onChange = {(event)=>setTitle(event.target.value)}
         />
-        <div className="place-self-end text-light-1">
+        <div className="sm:place-self-end my-2 sm:my-0 text-light-1 flex justify-between sm:block">
           <button onClick={()=>navigate(-1)} className="px-5 py-2 tracking-wide font-medium shadow-sm hover:bg-opacity-40 transition-colors duration-200 ease-in bg-light-2 bg-opacity-20  rounded-md">
             Cancel
           </button>
