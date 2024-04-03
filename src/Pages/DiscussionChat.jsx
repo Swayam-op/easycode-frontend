@@ -106,7 +106,13 @@ const DiscussionChat = () => {
             socket.on('activeUsers', handleActiveUsers);
 
             socket.on('message_from_room', recieveMessage);
-
+            
+            socket.on('confirm_disconnect',(check)=>{
+                if(check === true){
+                    socket.disconnect();
+                    socket.off('confirm_disconnect');
+                }
+            })
         }
 
         const handleWindowClose = (event) => {
@@ -121,7 +127,7 @@ const DiscussionChat = () => {
     
                 //clearing discussionDetails to make api-call everytime user comes to this page
                 dispatch(clearDiscussionDetails());
-                socket.disconnect();
+                // socket.disconnect();
                 console.log("socket is disconnecting after")
             }
         };
