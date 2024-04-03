@@ -192,8 +192,20 @@ const CodeSpace = ({ switchContainer }) => {
         >
           <LoadingEditor />
         </div>
+        <div className="sm:hidden block">
         <Editor
-          // height="100%"
+          width={`100%`}
+          height={'70vh'}
+          language={programmingLanguage.value}
+          value={sourceCode}
+          theme={theme && theme.value}
+          defaultValue="// some comment"
+          onChange={handleEditorChange}
+        />
+        </div>
+        
+        <div className="hidden sm:block h-full">
+        <Editor
           width={`100%`}
           language={programmingLanguage.value}
           value={sourceCode}
@@ -201,6 +213,7 @@ const CodeSpace = ({ switchContainer }) => {
           defaultValue="// some comment"
           onChange={handleEditorChange}
         />
+        </div>
       </div>
     </div>
   );

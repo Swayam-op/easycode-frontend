@@ -24,7 +24,7 @@ const EditProfile = ({closeProfileEditTab, closeEditProfile, userInformation}) =
         //console.log("state is : ", state);
     },[state])
   return (
-    <div className={`${closeProfileEditTab ? "hidden" : "block"} fixed h-screen sidebar overflow-y-auto inset-0 w-full top-0 bg-dark-4 z-50 rounded-md`}>
+    <div className={`${closeProfileEditTab ? "hidden" : "block"} fixed h-screen sidebar overflow-y-auto scrollbar inset-0 w-full top-0 bg-dark-4 z-50 rounded-md`}>
     
 
     

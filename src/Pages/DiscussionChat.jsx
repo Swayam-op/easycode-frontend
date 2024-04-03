@@ -210,7 +210,7 @@ const DiscussionChat = () => {
 
                             </div>
                             <div className="col-span-10 lg:col-span-8 overflow-hidden flex border border-dark-2 shadow-md shadow-gray-1 flex-col  w-full h-full relative  rounded-sm">
-                                <div className="sticky z-40 top-0 left-0 right-0 flex  bg-black rounded-sm">
+                                <div className="fixed z-40 top-0 left-0 right-0 flex  bg-black rounded-sm">
                                     <div className="w-full py-2 flex justify-between items-center sm:px-4 px-2">
 
                                         <div className="w-full flex items-center text-light-1">
@@ -228,7 +228,7 @@ const DiscussionChat = () => {
                                         
                                     </div>
                                 </div>
-                                <div ref={messagesEndRef} className="flex-1 overflow-y-auto bg-dark-4 scrollbar p-4">
+                                <div ref={messagesEndRef} className="flex-1 overflow-y-auto bg-dark-4 scrollbar pt-16 px-4 pb-4">
                                     {
                                         messages && messages.map((item, index) => {
                                             if (item.userName === userDetails.userName) {

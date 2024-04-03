@@ -47,7 +47,7 @@ const Editor = () => {
 
             <div className='w-full h-full flex md:flex-row flex-col justify-between'>
                 <div id='left_container' className='h-full w-full flex flex-col mr-1 md:basis-5/12 '>
-                    <div className='bg-dark-2 text-sm w-full px-5 py-2.5 flex justify-start overflow-x-auto'>
+                    <div className='bg-dark-2 text-sm w-full px-5 py-2.5 flex justify-start scrollbar overflow-x-auto'>
                         <button onClick={()=>switchContainer("description")} className={`flex items-center ${leftContainer === "description" ? '' : 'text-gray-400'} px-3 border border-transparent border-r-gray-600`}><TbFileDescription className='text-dark-1 mx-1 text-lg' /> Description</button>
                         <button onClick={()=>switchContainer("solutions")} className={`flex items-center ${leftContainer === "solutions" ? '' : 'text-gray-400'} px-3 border border-transparent border-r-gray-600`}><MdOutlineScience className='text-lg text-blue-800 mx-1' /> Solutions</button>
                         <button onClick={()=>switchContainer("submissions")}  className={`flex items-center ${leftContainer === "submissions" ? '' : 'text-gray-400'} px-3 border border-transparent border-r-gray-600`}><AiFillTrophy className='text-yellow-500 text-lg mx-1' /> Submission</button>
@@ -68,7 +68,7 @@ const Editor = () => {
                     </div>
                     
                 </div>
-                <div id='right_container' className='w-full relative overflow-hidden h-full  md:basis-7/12  '>
+                <div id='right_container' className='w-full relative  overflow-hidden h-full  md:basis-7/12  '>
                     
                     <CodeSpace switchContainer={switchContainer} />
                 </div>
