@@ -55,7 +55,7 @@ const Editor = () => {
                         <button onClick={()=>switchContainer("testresult")} className={`flex items-center ${leftContainer === "testresult" ? '' : 'text-gray-400'} px-3 `}><AiOutlineReconciliation className='text-orange-500 text-lg mx-1' /> Test Result</button>
 
                     </div>
-                    <div className='w-full grow scrollbar  overflow-y-scroll text-light-1 py-8 px-1 md:px-7'>
+                    <div className='w-full h-full grow scrollbar  overflow-y-scroll text-light-1 py-8 px-1 md:px-7'>
 
                     {
                         leftContainer === "description" ? <DescriptionContainer/> :

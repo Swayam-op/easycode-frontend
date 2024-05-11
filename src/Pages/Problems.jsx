@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react'
 import { BsCheck2Circle } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import { getAllQuestionsThunk, selectAllQuestion } from '../Redux/Reducers/QuestionReducer';
+import { getAllQuestionsThunk, selectAllQuestion, selectLoadingStateOfQuestion } from '../Redux/Reducers/QuestionReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { BiShieldAlt2 } from "react-icons/bi";
 import { SelectIsAuthenticated } from '../Redux/Reducers/AuthReducer';
+import LoadingGlobal from '../Components/LoadingGlobal';
 const Problems = () => {
     const dispatch = useDispatch();
+    const isLoading = useSelector(selectLoadingStateOfQuestion);
     const allQuestions = useSelector(selectAllQuestion);
     const isUserAuthenticated = useSelector(SelectIsAuthenticated);
     useEffect(() => {
@@ -14,9 +16,15 @@ const Problems = () => {
     }, [isUserAuthenticated, dispatch])
 
     return (
-        <div className='w-full max-w-screen-xl mx-auto min-h-screen lg:px-10 md:px-8 sm:px-6 px-2 py-10'>
-
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div className='w-full relative max-w-screen-xl mx-auto min-h-screen lg:px-10 md:px-8 sm:px-6 px-2 py-10'>
+            {
+                isLoading ?
+                <div className='absolute inset-0 justify-center items-center'>
+                <LoadingGlobal/>
+                </div>
+                :
+                <>
+                <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="w-full table-fixed text-sm text-left text-light-1 ">
                     <thead className="text-xs  border border-transparent border-b-gray-600 uppercase  ">
                         <tr>
@@ -63,6 +71,9 @@ const Problems = () => {
                     </tbody>
                 </table>
             </div>
+                </>
+            }
+           
 
         </div>
     )

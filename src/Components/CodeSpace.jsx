@@ -10,18 +10,23 @@ import { VscDebugRerun } from "react-icons/vsc";
 import { LiaCloudUploadAltSolid } from "react-icons/lia";
 import { useDispatch, useSelector } from "react-redux";
 import { selectQuestion } from "../Redux/Reducers/QuestionReducer";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import {
   runCodeThunk,
   selectIsLoadingOfCode,
+  selectRunCodeLoading,
+  selectSubmitCodeLoading,
   submitCodeThunk,
 } from "../Redux/Reducers/CodeReducer";
-import LoadingEditor from "./LoadingEditor";
+// import LoadingEditor from "./LoadingEditor";
 import { selectSolutionCode } from "../Redux/Reducers/SolutionReducer";
 
 const CodeSpace = ({ switchContainer }) => {
   const dispatch = useDispatch();
   const solutionCode = useSelector(selectSolutionCode);
   const isLoadingOfCode = useSelector(selectIsLoadingOfCode);
+  const runCodeLoading = useSelector(selectRunCodeLoading);
+  const submitCodeLoading = useSelector(selectSubmitCodeLoading);
   const [sourceCode, setSourceCode] = useState("");
   const question = useSelector(selectQuestion);
   const [programmingLanguage, setProgrammingLanguage] = useState(
@@ -168,30 +173,39 @@ const CodeSpace = ({ switchContainer }) => {
               handleRunCode();
               switchContainer("testresult");
             }}
-            className="flex items-center py-2 px-6 text-center rounded-md font-semibold text-sm text-light-1 bg-black hover:bg-dark-4 bg-gradient-to-br from-bg-dark-5 to-bg-dark-4 shadow-shadow-inset-2"
+            disabled={isLoadingOfCode}
+            className="flex items-center py-2 px-6 text-center rounded-md font-semibold text-sm text-light-1 bg-black hover:bg-dark-4 bg-gradient-to-br from-bg-dark-5 to-bg-dark-4 shadow-shadow-inset-2 disabled:cursor-not-allowed"
           >
-            <VscDebugRerun className="text-light-2 text-lg" />{" "}
-            <span className="block text-sm ml-2">Run</span>
+          {
+            runCodeLoading ? <AiOutlineLoading3Quarters className="text-lg text-light-2  animate-spin"/>
+            :
+            <VscDebugRerun className="text-light-2 text-lg" />
+          }
+            <span className="block text-sm ml-2"> Run</span>
           </button>
           <button
             onClick={() => {
               handleSubmitCode();
               switchContainer("submissions");
             }}
-            className="flex items-center py-2 px-6 ml-4 text-center rounded-md font-semibold text-sm text-light-1 bg-black hover:bg-dark-4 bg-gradient-to-br from-bg-dark-5 to-bg-dark-4 shadow-shadow-inset-2"
+            disabled={isLoadingOfCode}
+            className="flex items-center py-2 px-6 ml-4 text-center rounded-md font-semibold text-sm text-light-1 bg-black hover:bg-dark-4 bg-gradient-to-br from-bg-dark-5 to-bg-dark-4 shadow-shadow-inset-2 disabled:cursor-not-allowed"
           >
-            <LiaCloudUploadAltSolid className="text-lg text-green-500" />{" "}
-            <span className="block text-sm ml-2 text-green-500">Submit</span>
+            {
+              submitCodeLoading? <AiOutlineLoading3Quarters className="text-lg text-green-500  animate-spin"/>
+             : <LiaCloudUploadAltSolid className="text-lg text-green-500 " />
+             }
+            <span className="block text-sm ml-2 text-green-500"> Submit</span>
           </button>
         </div>
       </div>
       <div className="overlay rounded-md grow relative w-full shadow-4xl">
-        <div
+        {/* <div
           className={`${isLoadingOfCode === false ? "hidden" : "block"
             } absolute inset-0 z-40 `}
         >
           <LoadingEditor />
-        </div>
+        </div> */}
         <div className="sm:hidden block">
         <Editor
           width={`100%`}

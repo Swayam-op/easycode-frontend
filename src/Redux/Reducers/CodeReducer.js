@@ -5,6 +5,8 @@ const initialState = {
     runCodeResult : null,
     submitCodeResult : null,
     isLoading : false,
+    runCodeLoading: false,
+    submitCodeLoading : false,
     error : null,
     success  :null
 }
@@ -20,11 +22,13 @@ const codeReducer = createSlice({
         .addCase(runCodeThunk.pending, (state)=>{
             //console.log("runcodethunk pending");
             state.isLoading = true;
+            state.runCodeLoading = true;
         })
         .addCase(runCodeThunk.fulfilled, (state, action)=>{
             state.runCodeResult = action.payload.data;
             state.success = action.payload.data.message;
             state.isLoading = false;
+            state.runCodeLoading = false;
             //console.log("runcodethunk fulfilled");
         })
         .addCase(runCodeThunk.rejected,(state, action)=>{
@@ -36,14 +40,17 @@ const codeReducer = createSlice({
             
             state.error = error;
             state.isLoading = false;
+            state.runCodeLoading = false;
         })
         .addCase(submitCodeThunk.pending, (state)=>{
             state.isLoading = true;
+            state.submitCodeLoading = true;
         })
         .addCase(submitCodeThunk.fulfilled, (state, action)=>{
             state.submitCodeResult = action.payload.data;
             state.success = action.payload.data.message;
             state.isLoading = false;
+            state.submitCodeLoading = false;
         })
         .addCase(submitCodeThunk.rejected,(state, action)=>{
             let error = "";
@@ -53,6 +60,7 @@ const codeReducer = createSlice({
                 error =  action.payload.data.message;
             
             state.isLoading = false;
+            state.submitCodeLoading = false;
             state.error = error;
         })
     }
@@ -61,6 +69,8 @@ const codeReducer = createSlice({
 export const selectRunCodeResult = (state)=>state.codeReducer.runCodeResult;
 export const selectSubmitCodeResult = (state)=>state.codeReducer.submitCodeResult;
 export const selectIsLoadingOfCode = (state)=>state.codeReducer.isLoading;
+export const selectSubmitCodeLoading = (state)=>state.codeReducer.submitCodeLoading;
+export const selectRunCodeLoading = (state)=>state.codeReducer.runCodeLoading;
 export default codeReducer.reducer;
 
 export const runCodeThunk = createAsyncThunk('/code/runCodeThunk',async(data,{rejectWithValue})=>{

@@ -1,12 +1,14 @@
-import React, { useState} from 'react'
+import React, { useEffect, useState} from 'react'
 import {FaCodeMerge} from 'react-icons/fa6';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { signupThunk } from '../Redux/Reducers/AuthReducer';
-
+import { selectSignupSuccess, setSignupSuccess } from '../Redux/Reducers/AuthReducer';
 
 const SIgnup = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const signupSuccess = useSelector(selectSignupSuccess);
   const [signupDetails, setSignupDetails] = useState({
     username: "",
     password: "",
@@ -23,7 +25,12 @@ const SIgnup = () => {
     dispatch(signupThunk(signupDetails));
   }
 
-  
+  useEffect(()=>{
+    if(signupSuccess){
+      navigate('/signin');
+      setSignupSuccess(false);
+    }
+  },[signupSuccess, navigate])
   return (
     <div className='relative w-full py-6 bg-gradient-to-br from-black to-dark-2 flex justify-center items-center'>
     <div className='lg:w-98 md:w-96 px-8 py-10 w-full  rounded-md bg-light-1 shadow-shadow-1 '>
@@ -40,7 +47,7 @@ const SIgnup = () => {
       <label for="password" className="peer-focus:font-medium absolute text-sm text-light-2  duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-dark-2 peer-focus:dark:text-light-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7">Password</label>
   </div>
   <div className="relative z-0 w-full mb-6 group">
-      <input onChange={(event)=>handleSignupInputs(event)} type="confirmpassword" name="confirmpassword" id="confirmpassword" className="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-light-2 appearance-none  focus:outline-none focus:ring-0 focus:border-dark-2 peer" placeholder=" " required />
+      <input onChange={(event)=>handleSignupInputs(event)} type="password" name="confirmpassword" id="confirmpassword" className="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-light-2 appearance-none  focus:outline-none focus:ring-0 focus:border-dark-2 peer" placeholder=" " required />
       <label for="confirmpassword" className="peer-focus:font-medium absolute text-sm text-light-2  duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-dark-2 peer-focus:dark:text-light-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7">Confirm password</label>
   </div>
   <div className="relative z-0 w-full mb-8 group">

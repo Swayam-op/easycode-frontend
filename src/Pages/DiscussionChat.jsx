@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SelectIsAuthenticated } from "../Redux/Reducers/AuthReducer";
 import { useNavigate, useParams } from "react-router";
 import { getSocketInstance } from "../Services/socket";
-import { clearDiscussionDetails, get_User_Room_PreviousMessages, selectPreviousMessages, selectRoomDetails, selectUserChatDetails,  setPreviousMessages } from "../Redux/Reducers/DiscussionReducer";
+import { clearDiscussionDetails, getMorePreviousMessagesThunk, get_User_Room_PreviousMessages, selectPreviousMessages, selectRoomDetails, selectUserChatDetails,  setPreviousMessages } from "../Redux/Reducers/DiscussionReducer";
 
 
 
@@ -22,19 +22,22 @@ const DiscussionChat = () => {
     const roomDetails = useSelector(selectRoomDetails);
     const messages = useSelector(selectPreviousMessages);
     const [text, setText] = useState("");
+    const [newMessageStatus, setNewMessagesStatus] = useState('new'); // new, recieve/send, old
+    const [previousContainerHeight, setPreviousContainerHeight] = useState(0);
 
     const [activeUsers, setActiveUsers] = useState([]);
     const [sideBarState, setSideBarState] = useState('closed');
-    const messagesEndRef = useRef(null);
+    const messageContainer = useRef(null);
+    const fetchThreshold = 0.2; // 20
     // it get disconnected socket instance
     const socket = getSocketInstance();
-    
+    const [messageContainerScrollMap,setMessageContainerScrollMap] = useState([]);
 
     const scrollToBottom = useCallback(() => {
-        if (messagesEndRef.current) {
-            messagesEndRef.current.scrollBy({
-                top: messagesEndRef.current.scrollHeight,
-                behavior: 'smooth'
+        if (messageContainer.current) {
+            messageContainer.current.scrollBy({
+                top: messageContainer.current.scrollHeight,
+                // behavior: 'smooth'
             });
         }
     }, []);
@@ -46,13 +49,19 @@ const DiscussionChat = () => {
 
     const recieveMessage = useCallback((data) => {
         dispatch(setPreviousMessages(data))
-        setTimeout(() => {
-            scrollToBottom();
-        }, 50);
-    }, [dispatch, scrollToBottom])
+        setNewMessagesStatus('recieve')
+        // setTimeout(() => {
+        //     scrollToBottom();
+        // }, 50);
+    }, [dispatch])
 
     function sendMessege() {
         if (text) {
+
+            // Check whitespaces in text
+            const whitespaceRegex = /^\s*$/;
+            if(whitespaceRegex.test(text))return;
+
             const newMessage = {
                 text: text,
                 userName: userDetails.userName,
@@ -68,9 +77,10 @@ const DiscussionChat = () => {
                 file: ""
             })
         }
-        setTimeout(() => {
-            scrollToBottom();
-        }, 50);
+        setNewMessagesStatus('send')
+        // setTimeout(() => {
+        //     scrollToBottom();
+        // }, 50);
         setText("");
     }
     
@@ -84,19 +94,23 @@ const DiscussionChat = () => {
 
 
     useEffect(() => {
-        console.log(userDetails, socket)
+        // console.log(userDetails, socket)
         if (isAuthenticated && !userDetails) { // 
             dispatch(get_User_Room_PreviousMessages({ roomId }));
         }
+        
+        // it is required when you join to another group at same time.
+        if(!socket.connected){
+            socket.connect();
+        }
+
         // //console.log("after connect & before emit join team", userDetails, roomDetails, messages)
-        if (userDetails && socket && !socket.connected) {
+        if (userDetails && socket && socket.connected) {
 
             //after messages are loaded, scroll to bottom
-            setTimeout(() => {
-                scrollToBottom();
-            }, 50);
-
-            socket.connect();
+            // setTimeout(() => {
+            //     scrollToBottom();
+            // }, 50);
 
             socket.emit('join_room', {
                 roomId: roomId,
@@ -118,7 +132,7 @@ const DiscussionChat = () => {
         const handleWindowClose = (event) => {
             if (userDetails && socket.connected) {
                 socket.emit('discussion_disconnect', roomId); // custome disconnect for only discussion socket
-                console.log("socket is disconnecting before")
+                // console.log("socket is disconnecting before")
          
                 
                 //to prevent multiple triggering of same socket-event. That causes repeatation of messages.
@@ -128,7 +142,7 @@ const DiscussionChat = () => {
                 //clearing discussionDetails to make api-call everytime user comes to this page
                 dispatch(clearDiscussionDetails());
                 // socket.disconnect();
-                console.log("socket is disconnecting after")
+                // console.log("socket is disconnecting after")
             }
         };
     
@@ -139,8 +153,64 @@ const DiscussionChat = () => {
             handleWindowClose();
         };
     }, [userDetails, isAuthenticated])
+    
+    
+    const handleKeyPress = (event) => {
+        // console.log(event, " on key press")
+        if (event.key === 'Enter') {
+            event.preventDefault();
+          // Call your function here
+          sendMessege();
+          setText("")
+        }
+      };
+
+
+    useEffect(() => {
+        const container = messageContainer.current;
+        let timeId = null;
+        if(container){
+            const handleScroll = () => {
+                //while first loading of page, container is null and scroll is working, so to avoid "null" value in container
+                    const { scrollTop, scrollHeight, clientHeight } = container;
+                    const scrollPercentage = scrollTop / (scrollHeight - clientHeight);
+              
+                    if (scrollPercentage <= fetchThreshold ) {
+                        clearTimeout(timeId);
+                        timeId = setTimeout(()=>{
+                            setPreviousContainerHeight(scrollHeight);
+                          dispatch(getMorePreviousMessagesThunk(roomId));
+                          setNewMessagesStatus("old")
+                        }, 3000);
+                        
+                    }
+            };
+        
+            container.addEventListener('scroll', handleScroll);
+            return () => {
+                container.removeEventListener('scroll', handleScroll);
+            };
+        }
 
     
+
+      }, [dispatch, messageContainer.current]);
+    
+      
+      useEffect(()=>{
+        if(messages){
+            if(newMessageStatus === 'old'){
+                const container = messageContainer.current;
+                const newMessagesHeight = container.scrollHeight - previousContainerHeight;
+
+                // Adjust the scroll position to maintain the "Current Last Message" in view
+                container.scrollTop += newMessagesHeight;
+            }
+            else{
+                scrollToBottom();
+            }
+        }
+      },[messages])
 
     return (
         <>
@@ -228,7 +298,7 @@ const DiscussionChat = () => {
                                         
                                     </div>
                                 </div>
-                                <div ref={messagesEndRef} className="flex-1 overflow-y-auto bg-dark-4 scrollbar pt-16 px-4 pb-4">
+                                <div ref={messageContainer} className="flex-1 overflow-y-auto bg-dark-4 scrollbar pt-16 px-4 pb-4">
                                     {
                                         messages && messages.map((item, index) => {
                                             if (item.userName === userDetails.userName) {
@@ -262,8 +332,8 @@ const DiscussionChat = () => {
                                 </div>
 
                                 <div className="sticky z-40 bottom-0 left-0 right-0 flex  bg-black rounded-sm">
-                                    <textarea onChange={(e) => setText(e.target.value)} value={text} placeholder="Type something ...." className="px-4 pt-2 border-none bg-transparent resize-none  grow text-light-3 focus:outline-none focus:ring-0" />
-                                    <button onClick={sendMessege} className="px-5 border-transparent rounded-lg text-sm transition-all duration-200 ease-out hover:bg-light-3 hover:text-black text-light-3 cursor-pointer"><LuSendHorizonal className=" text-xl" /></button>
+                                    <textarea onKeyDown={handleKeyPress} onChange={(e) => setText(e.target.value)} value={text} placeholder="Type something ...." className="px-4 pt-2 border-none bg-transparent resize-none  grow text-light-3 focus:outline-none focus:ring-0" />
+                                    <button  onClick={sendMessege} className="px-5 border-transparent rounded-lg text-sm transition-all duration-200 ease-out hover:bg-light-3 hover:text-black text-light-3 cursor-pointer"><LuSendHorizonal className=" text-xl" /></button>
                                 </div>
                             </div>
                         </div>

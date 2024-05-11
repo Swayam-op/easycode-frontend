@@ -72,6 +72,7 @@ export default solutionReducer.reducer;
 export const selectSulutionList = (state)=> state.solutionReducer.solutionList;
 export const selectSolutionCode = (state)=> state.solutionReducer.solutionCode;
 export const selectSingleSolutionInfo = (state) => state.solutionReducer.singleSolutionInfo;
+export const selectLoadingStateOfSolution = (state)=>state.solutionReducer.isLoading;
 export const {setSolutionCode, setSingleSolutionInfo, clearSolutionList, clearSingleSolutionInfo} = solutionReducer.actions;
 
 

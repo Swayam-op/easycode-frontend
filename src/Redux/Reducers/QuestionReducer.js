@@ -45,6 +45,7 @@ const QuestionReducer = createSlice({
 
 export const selectAllQuestion = (state)=>state.questionReducer.allQuestions;
 export const selectQuestion = (state)=>state.questionReducer.codeEditorQuestion;
+export const selectLoadingStateOfQuestion  = (state)=>state.questionReducer.isLoading;
 export default QuestionReducer.reducer;
 
 export const getAllQuestionsThunk = createAsyncThunk('question/getAllQuestionsThunk',async(_, {dispatch, rejectWithValue})=>{

@@ -11,7 +11,8 @@ const initialState = {
     data : null,
     message  : null,
     statusCode : STATUS.OK,
-    isLoading : false
+    isLoading : false,
+    signupSuccess: false,
 }
 
 
@@ -23,6 +24,9 @@ const AuthReducer = createSlice({
             //console.log("authenitcation : in action ", action.payload)
             state.isAuthenticated = action.payload;
         },
+        setSignupSuccess : (state, action)=>{
+            state.signupSuccess = action.payload;
+        }
     },
     extraReducers : (builder) =>{
         builder
@@ -31,6 +35,7 @@ const AuthReducer = createSlice({
             state.isLoading = false;
             state.message = action.payload.data.message;
             state.statusCode = action.payload.status;
+            state.signupSuccess  = true;
             successToast("Sign-up is successfull");
 
         })
@@ -119,9 +124,10 @@ const AuthReducer = createSlice({
 })
 
 
-export const { setAthentication} = AuthReducer.actions;
+export const { setAthentication, setSignupSuccess} = AuthReducer.actions;
 export const SelectIsAuthenticated = (state) => state.authReducer.isAuthenticated;
 export const selectShortUserDetails = (state)=>state.authReducer.data;
+export const selectSignupSuccess = (state)=>state.authReducer.signupSuccess;
 export default AuthReducer.reducer;
 
 export const signupThunk = createAsyncThunk('auth/signupThunk', async (signupDetails, {dispatch, rejectWithValue }) => {

@@ -5,6 +5,7 @@ import { selectSolutionCode, uploadSolutionThunk } from "../Redux/Reducers/Solut
 import { useParams } from "react-router";
 import { useNavigate } from "react-router";
 import { getDefaultSolutionContent } from "../Api/ProblemsApi";
+import { errorToast } from "../Services/ToastHandler";
 
 const WriteSolution = () => {
     const dispatch = useDispatch();
@@ -16,11 +17,16 @@ const WriteSolution = () => {
 
   
   function uploadSolutionEvent(){
+    if(!title || title.length < 3){
+    errorToast("Title should atleast have 3 letters.")
+    return;
+    }
     dispatch(uploadSolutionThunk({
       title,
       questionId : id,
       content : text
     }));
+    navigate(-1);
   }
   
   useEffect(()=>{

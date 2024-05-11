@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 export const Home = () => {
   return (
-    <section id='hero' className='w-full flex flex-col-reverse lg:flex-row lg:px-16 md:px-12 sm:px-8 lg:mt-20 md:mt-10 sm:mt-10 mt-4  px-1 pt-12 pb-16 border-1 border-transparent '>
+    <section id='hero' className='w-full flex flex-col-reverse lg:flex-row lg:px-16 md:px-12 sm:px-8 lg:mt-20 md:mt-10 sm:mt-10 mt-4  px-1 pt-12 pb-24 border-1 border-transparent '>
     <div className='basis-7/12 px-2 sm:pr-10'>
         <h3 className='tracking-widest text-light-2 font-medium pb-2 sm:pb-0'>WELCOME TO EASYCODE</h3>
         <h1 className='py-2 md:py-5 lg:py-6 lg:text-6xl sm:text-5xl text-4xl font-bold text-white'>Write Your First <span className='lg:text-5xl sm:text-4xl text-3xl text-transparent bg-clip-text bg-gradient-to-tr from-dark-1 to-sky-1'>CODE</span> </h1>
