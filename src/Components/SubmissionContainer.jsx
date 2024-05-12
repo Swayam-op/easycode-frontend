@@ -118,7 +118,7 @@ const SubmissionContainer = () => {
                       />
                       <h3 className="inline text-sm text-gray-4">
                         <span className=" text-light-1">
-                          swayam prakash sahoo
+                          You
                         </span>{" "}
                         submitted at {data.submitedAtTime}{" "}
                       </h3>
@@ -135,7 +135,7 @@ const SubmissionContainer = () => {
                 <div className="border rounded-md border-dark-2 p-3 mb-3">
                   {errorMessage? (
                     <>
-                    dfdf
+                    
                       {errorMessage.compile_output && (
                         <div className="mb-2 bg-rose-500 bg-opacity-10 w-full p-4 text-red-600 rounded-md">
                           {errorMessage.compile_output}

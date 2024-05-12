@@ -337,7 +337,7 @@ const Profile = () => {
                   <button onClick={() => handleContianerList(1)} className={`flex ${containerList === 'recentActivity' ? "text-light-1" : "text-light-2"} font-semibold py-2 px-4 justify-center items-center bg-light-2 hover:text-light-1 bg-opacity-20 rounded-md`}>
                     <ImFire className="mr-2" /> Recent AC
                   </button>
-                  <button onClick={() => handleContianerList(2)} className={`flex ${containerList === 'recentActivity' ? "text-light-1" : "text-light-2"} font-semibold py-2 px-4 justify-center items-center bg-light-2 hover:text-light-1 bg-opacity-20 rounded-md`}>
+                  <button onClick={() => handleContianerList(2)} className={`flex ${containerList === 'recentActivity' ? "text-light-2" : "text-light-1"} font-semibold py-2 px-4 justify-center items-center bg-light-2 hover:text-light-1 bg-opacity-20 rounded-md`}>
                     <ImFire className="mr-2" /> Solutions
                   </button>
 
